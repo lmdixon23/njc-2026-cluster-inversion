@@ -1,0 +1,32 @@
+# local process notes / scaffolding — never public
+_local/
+
+# python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+venv/
+
+# latex build artifacts
+*.aux
+*.log
+*.out
+*.toc
+*.bbl
+*.blg
+*.synctex.gz
+*.fls
+*.fdb_latexmk
+paper/*.pdf
+paper/*/*.pdf
+!paper/figures/*.pdf
+paper/figures/*.png
+
+# local test caches
+.pytest_cache/
+.mypy_cache/
+
+# os
+.DS_Store
+Thumbs.db

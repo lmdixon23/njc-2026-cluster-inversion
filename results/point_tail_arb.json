@@ -1,0 +1,20 @@
+{
+  "schema": "arb-point-tail-replay-v1",
+  "verdict": "PASS",
+  "arithmetic": "python-flint Arb independent angular-grid replay",
+  "precision_bits": 256,
+  "witness_sha256": "b4268c92e31066cfa3ea8466dc181ad3bf5876fc29b512493c5d37807c157a40",
+  "point_report_sha256": "f92ddb13e9d20ac3be0bba7894f86885ff63c48c169219f2b5f9d545f153f784",
+  "R": 582,
+  "grid": 200000,
+  "checked": 200000,
+  "worst_margin_lower": "[0.02732004675274888489632387153292495484191 +/- 1.55e-42]",
+  "worst_grid_index": 37573,
+  "worst_pair": [
+    0,
+    2
+  ],
+  "failures": [],
+  "workers": 8,
+  "elapsed_seconds": 1.4737117290496826
+}

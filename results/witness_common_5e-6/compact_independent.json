@@ -1,0 +1,21 @@
+{
+  "verdict": "PASS",
+  "arithmetic": "custom Decimal interval diagnostic",
+  "delta_A": "0.000005",
+  "delta_B": "0.000005",
+  "delta_c": "0.000005",
+  "leaf_count": 93000,
+  "checked": 93000,
+  "prefix_free": true,
+  "exact_volume_closure": true,
+  "volume": {
+    "max_depth": 30,
+    "normalized_numerator": "1073741824",
+    "normalized_denominator": "1073741824",
+    "root_area": "1354896"
+  },
+  "minimum_leaf_lower": "2.039205023147159875571827571849983023841665578611487967684321693536094E-248",
+  "failures": [],
+  "elapsed_seconds": 9.857592344284058,
+  "workers": 8
+}

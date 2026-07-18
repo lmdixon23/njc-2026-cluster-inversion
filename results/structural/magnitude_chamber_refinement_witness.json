@@ -1,0 +1,213 @@
+{
+  "description": "Counterexample to endpoint-orientation signs as a complete winding-spectrum chamber invariant",
+  "directions": [
+    [
+      "6",
+      "1"
+    ],
+    [
+      "-4",
+      "4"
+    ],
+    [
+      "-3",
+      "-5"
+    ],
+    [
+      "2",
+      "4"
+    ],
+    [
+      "5",
+      "-2"
+    ]
+  ],
+  "lambda_A": [
+    "49/16",
+    "35/16",
+    "15/4",
+    "4",
+    "43/16"
+  ],
+  "lambda_B": [
+    "9/4",
+    "7/8",
+    "2",
+    "39/16",
+    "11/8"
+  ],
+  "endpoint_predicate_occurrences": 80,
+  "crossing_pairs": [
+    [
+      0,
+      2
+    ],
+    [
+      0,
+      3
+    ],
+    [
+      0,
+      6
+    ],
+    [
+      0,
+      7
+    ],
+    [
+      0,
+      8
+    ],
+    [
+      1,
+      4
+    ],
+    [
+      1,
+      5
+    ],
+    [
+      1,
+      7
+    ],
+    [
+      1,
+      8
+    ],
+    [
+      2,
+      4
+    ],
+    [
+      2,
+      5
+    ],
+    [
+      2,
+      6
+    ],
+    [
+      2,
+      9
+    ],
+    [
+      3,
+      5
+    ],
+    [
+      3,
+      6
+    ],
+    [
+      3,
+      9
+    ],
+    [
+      4,
+      7
+    ],
+    [
+      4,
+      8
+    ],
+    [
+      5,
+      7
+    ],
+    [
+      5,
+      8
+    ],
+    [
+      6,
+      9
+    ],
+    [
+      7,
+      9
+    ]
+  ],
+  "spectrum_A": [
+    -2,
+    -1,
+    0,
+    1
+  ],
+  "spectrum_B": [
+    -1,
+    0,
+    1
+  ],
+  "changed_crossing_order_comparisons": [
+    [
+      1,
+      4,
+      7
+    ],
+    [
+      1,
+      4,
+      8
+    ],
+    [
+      2,
+      6,
+      9
+    ],
+    [
+      3,
+      6,
+      9
+    ],
+    [
+      4,
+      1,
+      7
+    ],
+    [
+      4,
+      1,
+      8
+    ],
+    [
+      6,
+      2,
+      9
+    ],
+    [
+      6,
+      3,
+      9
+    ],
+    [
+      7,
+      1,
+      4
+    ],
+    [
+      8,
+      1,
+      4
+    ],
+    [
+      9,
+      2,
+      6
+    ],
+    [
+      9,
+      3,
+      6
+    ]
+  ],
+  "checks": {
+    "endpoint_sign_vectors_identical": true,
+    "endpoint_predicates_nonzero": true,
+    "endpoint_predicate_occurrences": true,
+    "crossing_sets_identical": true,
+    "crossing_order_refinement_separates": true,
+    "spectrum_A": true,
+    "spectrum_B": true
+  },
+  "verdict": "PASS"
+}

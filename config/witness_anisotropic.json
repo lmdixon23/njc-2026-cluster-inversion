@@ -1,0 +1,12 @@
+{
+  "name": "witness_anisotropic",
+  "witness": "../data/witness.json",
+  "delta_A": "0.0001",
+  "delta_B": "0.000003",
+  "delta_c": "0.001",
+  "R": 582,
+  "grid": 200000,
+  "hmin": "0.008",
+  "workers": 8,
+  "use_witness_geometry": true
+}

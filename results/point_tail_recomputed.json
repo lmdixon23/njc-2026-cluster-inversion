@@ -1,0 +1,143 @@
+{
+  "delta": "0",
+  "delta_A": "0",
+  "delta_B": "0",
+  "delta_c": "0",
+  "witness_sha256": "b4268c92e31066cfa3ea8466dc181ad3bf5876fc29b512493c5d37807c157a40",
+  "R": 582,
+  "grid": 200000,
+  "minor_signs": {
+    "positive": [
+      [
+        0,
+        1
+      ],
+      [
+        0,
+        2
+      ],
+      [
+        0,
+        3
+      ],
+      [
+        1,
+        2
+      ],
+      [
+        1,
+        3
+      ]
+    ],
+    "negative": [
+      [
+        2,
+        3
+      ]
+    ],
+    "ambiguous": []
+  },
+  "tail": {
+    "passed": true,
+    "worst_margin": "0.02732000220478170149362995289266109466553",
+    "worst_grid_index": 137573,
+    "worst_pair": [
+      0,
+      2
+    ],
+    "workers": 8,
+    "chunks": [
+      {
+        "passed": true,
+        "worst": "141.3931694994725205560825997963547706604",
+        "worstk": 24999,
+        "worst_pair": [
+          0,
+          3
+        ],
+        "start": 0,
+        "end": 25000
+      },
+      {
+        "passed": true,
+        "worst": "0.02732000220778640908747547655366361141205",
+        "worstk": 37573,
+        "worst_pair": [
+          0,
+          2
+        ],
+        "start": 25000,
+        "end": 50000
+      },
+      {
+        "passed": true,
+        "worst": "516.929915137281454917683731764554977417",
+        "worstk": 50000,
+        "worst_pair": [
+          0,
+          3
+        ],
+        "start": 50000,
+        "end": 75000
+      },
+      {
+        "passed": true,
+        "worst": "1097.428376730592617604997940361499786377",
+        "worstk": 99999,
+        "worst_pair": [
+          0,
+          1
+        ],
+        "start": 75000,
+        "end": 100000
+      },
+      {
+        "passed": true,
+        "worst": "141.3931694994707299883884843438863754272",
+        "worstk": 124999,
+        "worst_pair": [
+          0,
+          3
+        ],
+        "start": 100000,
+        "end": 125000
+      },
+      {
+        "passed": true,
+        "worst": "0.02732000220478170149362995289266109466553",
+        "worstk": 137573,
+        "worst_pair": [
+          0,
+          2
+        ],
+        "start": 125000,
+        "end": 150000
+      },
+      {
+        "passed": true,
+        "worst": "516.9299151372800906756310723721981048584",
+        "worstk": 150000,
+        "worst_pair": [
+          0,
+          3
+        ],
+        "start": 150000,
+        "end": 175000
+      },
+      {
+        "passed": true,
+        "worst": "1097.428376730590798615594394505023956299",
+        "worstk": 199999,
+        "worst_pair": [
+          0,
+          1
+        ],
+        "start": 175000,
+        "end": 200000
+      }
+    ],
+    "elapsed_seconds": 13.246047735214233
+  },
+  "verdict": "PASS",
+  "method": "parallel mpmath.iv fixed-radius angular-grid certificate; exact rational witness input"
+}

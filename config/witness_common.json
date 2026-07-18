@@ -1,0 +1,10 @@
+{
+  "name": "witness_common_5e-6",
+  "witness": "../data/witness.json",
+  "delta": "0.000005",
+  "R": 582,
+  "grid": 200000,
+  "hmin": "0.008",
+  "workers": 8,
+  "use_witness_geometry": true
+}

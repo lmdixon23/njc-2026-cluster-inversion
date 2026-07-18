@@ -1,0 +1,13 @@
+cff-version: 1.2.0
+message: Please cite the preprint and the archived software release.
+title: >-
+  Code and data for: Asymptotic-polygon global inversion for planar saturating
+  ridge networks and an injective neural-Jacobian separation witness
+version: 1.0.0
+date-released: 2026-07-17
+authors:
+  - family-names: Dixon
+    given-names: Logan M.
+    orcid: https://orcid.org/0009-0001-0592-462X
+repository-code: https://github.com/lmdixon23/njc-2026-cluster-inversion
+license: MIT

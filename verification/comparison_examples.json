@@ -1,0 +1,198 @@
+{
+  "convex_sign_coherent": {
+    "half_edges": [
+      [
+        "4",
+        "-3"
+      ],
+      [
+        "4",
+        "-1"
+      ],
+      [
+        "4",
+        "1"
+      ],
+      [
+        "4",
+        "3"
+      ]
+    ],
+    "vertices": [
+      [
+        "0",
+        "0"
+      ],
+      [
+        "4",
+        "-3"
+      ],
+      [
+        "8",
+        "-4"
+      ],
+      [
+        "12",
+        "-3"
+      ],
+      [
+        "16",
+        "0"
+      ],
+      [
+        "12",
+        "3"
+      ],
+      [
+        "8",
+        "4"
+      ],
+      [
+        "4",
+        "3"
+      ]
+    ],
+    "simple": true,
+    "strictly_convex": true,
+    "orientation": 1,
+    "signed_area": "80",
+    "failures": []
+  },
+  "nonconvex_simple": {
+    "half_edges": [
+      [
+        "1",
+        "-3"
+      ],
+      [
+        "1",
+        "1"
+      ],
+      [
+        "1",
+        "0"
+      ],
+      [
+        "1",
+        "3"
+      ]
+    ],
+    "vertices": [
+      [
+        "0",
+        "0"
+      ],
+      [
+        "1",
+        "-3"
+      ],
+      [
+        "2",
+        "-2"
+      ],
+      [
+        "3",
+        "-2"
+      ],
+      [
+        "4",
+        "1"
+      ],
+      [
+        "3",
+        "4"
+      ],
+      [
+        "2",
+        "3"
+      ],
+      [
+        "1",
+        "3"
+      ]
+    ],
+    "simple": true,
+    "strictly_convex": false,
+    "orientation": 1,
+    "signed_area": "17",
+    "failures": []
+  },
+  "same_sign_data_self_intersecting": {
+    "half_edges": [
+      [
+        "1",
+        "-3"
+      ],
+      [
+        "7",
+        "7"
+      ],
+      [
+        "7",
+        "0"
+      ],
+      [
+        "1",
+        "3"
+      ]
+    ],
+    "vertices": [
+      [
+        "0",
+        "0"
+      ],
+      [
+        "1",
+        "-3"
+      ],
+      [
+        "8",
+        "4"
+      ],
+      [
+        "15",
+        "4"
+      ],
+      [
+        "16",
+        "7"
+      ],
+      [
+        "15",
+        "10"
+      ],
+      [
+        "8",
+        "3"
+      ],
+      [
+        "1",
+        "3"
+      ]
+    ],
+    "simple": false,
+    "strictly_convex": false,
+    "orientation": 1,
+    "signed_area": "41",
+    "failures": [
+      {
+        "reason": "nonadjacent-edge intersection",
+        "edges": [
+          1,
+          6
+        ],
+        "kind": "proper"
+      },
+      {
+        "reason": "nonadjacent-edge intersection",
+        "edges": [
+          2,
+          5
+        ],
+        "kind": "proper"
+      }
+    ]
+  },
+  "sign_pattern_preserved": true,
+  "verdict": "PASS"
+}

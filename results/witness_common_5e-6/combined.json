@@ -1,0 +1,60 @@
+{
+  "schema": "open-family-combined-v3",
+  "verdict": "PASS",
+  "configuration": {
+    "name": "witness_common_5e-6",
+    "witness": "../data/witness.json",
+    "delta": "0.000005",
+    "R": 582,
+    "grid": 200000,
+    "hmin": "0.008",
+    "workers": 8,
+    "use_witness_geometry": true
+  },
+  "configuration_sha256": "d9d181f55227c5f9cd62940e75d6312957893ffadfb918b11be21284b44e2476",
+  "leaf_count": 93000,
+  "reports": {
+    "compact": {
+      "role": "check_report",
+      "verdict": "PASS",
+      "sha256": "86092c1523b3d76a45f348ce8c6e623eb28cd3843a8336428767eb17a2c175fb",
+      "bytes": 1763
+    },
+    "compact_arb": {
+      "role": "check_report",
+      "verdict": "PASS",
+      "sha256": "6ddf1664809b9ef1cf6203d04e999729dd52b97c9676f9d41308b7d36063066f",
+      "bytes": 892
+    },
+    "compact_independent": {
+      "role": "check_report",
+      "verdict": "PASS",
+      "sha256": "c973318677695d08fae919cd952058d927416cfb3fd4ce3cfd9f38db926e0dd0",
+      "bytes": 582
+    },
+    "compact_leaf_paths": {
+      "role": "data_export",
+      "verdict": null,
+      "sha256": "879c77e7f664a18a8f572adb771a14c9bc376dfe57d9d092a432d62b70057562",
+      "bytes": 2508804
+    },
+    "geometry": {
+      "role": "check_report",
+      "verdict": "PASS",
+      "sha256": "112621d64fd2de333434c0600ac8db46c60d277ac63879b8bf1d34499a73b816",
+      "bytes": 4763
+    },
+    "tail": {
+      "role": "check_report",
+      "verdict": "PASS",
+      "sha256": "f1601ccb1e8593e06c0f2f069e0574e7438e24aaa8b8dac8ab83dd98daa395b5",
+      "bytes": 1496
+    },
+    "tail_independent": {
+      "role": "check_report",
+      "verdict": "PASS",
+      "sha256": "4eb7b52a145e001923717bcb4f3380915716128cbca2f953c223d7cf81484245",
+      "bytes": 1097
+    }
+  }
+}

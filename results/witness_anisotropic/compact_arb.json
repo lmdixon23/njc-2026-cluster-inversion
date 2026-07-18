@@ -1,0 +1,23 @@
+{
+  "schema": "arb-compact-replay-v1",
+  "verdict": "PASS",
+  "arithmetic": "python-flint Arb independent ball replay",
+  "precision_bits": 256,
+  "witness_sha256": "b4268c92e31066cfa3ea8466dc181ad3bf5876fc29b512493c5d37807c157a40",
+  "configuration_sha256": "fac7e8bc4d25bddcfb6a8b632fb0b0f59d1828f6d6d746d86efa0a0dd1ff29ba",
+  "compact_report_sha256": "e7c47c96f976c30f1710d03a5c6fae84ac9fefef26aa94c58a199ad132e39779",
+  "leaf_paths_sha256": "74d9667077493cbfc680ead81d6d5e74e144315b08b6f9f2f9d86570e9de1d81",
+  "delta_A": "1/10000",
+  "delta_B": "3/1000000",
+  "delta_c": "1/1000",
+  "R": 582,
+  "leaf_count": 96517,
+  "checked": 96517,
+  "prefix_free": true,
+  "exact_volume_closure": true,
+  "maximum_path_depth": 31,
+  "minimum_leaf_lower": "[2.036518998105108018500230866508205224358e-248 +/- 6.96e-289]",
+  "failures": [],
+  "workers": 8,
+  "elapsed_seconds": 1.310107707977295
+}

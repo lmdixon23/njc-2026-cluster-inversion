@@ -1,0 +1,14 @@
+{
+  "description": "Exact nonconvex simple member of the analytic one-negative-minor class",
+  "A": [
+    [4, "-2/5", 1, 0],
+    [48, "-3/10", 0, -24]
+  ],
+  "B": [
+    ["-1/10", "2/5"],
+    [1, -20],
+    [1, 0],
+    [0, 1]
+  ],
+  "c": [0, 0, 0, 0]
+}

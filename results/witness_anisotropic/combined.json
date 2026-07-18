@@ -1,0 +1,62 @@
+{
+  "schema": "open-family-combined-v3",
+  "verdict": "PASS",
+  "configuration": {
+    "name": "witness_anisotropic",
+    "witness": "../data/witness.json",
+    "delta_A": "0.0001",
+    "delta_B": "0.000003",
+    "delta_c": "0.001",
+    "R": 582,
+    "grid": 200000,
+    "hmin": "0.008",
+    "workers": 8,
+    "use_witness_geometry": true
+  },
+  "configuration_sha256": "fac7e8bc4d25bddcfb6a8b632fb0b0f59d1828f6d6d746d86efa0a0dd1ff29ba",
+  "leaf_count": 96517,
+  "reports": {
+    "compact": {
+      "role": "check_report",
+      "verdict": "PASS",
+      "sha256": "e7c47c96f976c30f1710d03a5c6fae84ac9fefef26aa94c58a199ad132e39779",
+      "bytes": 1759
+    },
+    "compact_arb": {
+      "role": "check_report",
+      "verdict": "PASS",
+      "sha256": "cddaee6485641985f666f78343e4bb70195151e50faaebd7ba752f3219a86819",
+      "bytes": 889
+    },
+    "compact_independent": {
+      "role": "check_report",
+      "verdict": "PASS",
+      "sha256": "91ca519be77c40fc4d5826c5cf718ce440d7eaedf29f45b0eae17df01edabdcf",
+      "bytes": 577
+    },
+    "compact_leaf_paths": {
+      "role": "data_export",
+      "verdict": null,
+      "sha256": "74d9667077493cbfc680ead81d6d5e74e144315b08b6f9f2f9d86570e9de1d81",
+      "bytes": 2625765
+    },
+    "geometry": {
+      "role": "check_report",
+      "verdict": "PASS",
+      "sha256": "112621d64fd2de333434c0600ac8db46c60d277ac63879b8bf1d34499a73b816",
+      "bytes": 4763
+    },
+    "tail": {
+      "role": "check_report",
+      "verdict": "PASS",
+      "sha256": "c70ba8e4ab9a31bbeb375523e6e425e8535566aa62500763a673b7a38039d56a",
+      "bytes": 1496
+    },
+    "tail_independent": {
+      "role": "check_report",
+      "verdict": "PASS",
+      "sha256": "aa553a86f68b93d9de79c2d95d4a1d7fe18b82379bb0273a50716bec9cdaad76",
+      "bytes": 1084
+    }
+  }
+}

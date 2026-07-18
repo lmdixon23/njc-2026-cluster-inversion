@@ -1,0 +1,11 @@
+* text=auto
+*.sh text eol=lf
+*.yml text eol=lf
+*.yaml text eol=lf
+*.json text eol=lf
+*.pdf binary
+*.png binary
+
+# Freeze the canonical witness bytes. The repository manifest records the file
+# SHA-256, while the manuscript records the canonical A, B, c payload SHA-256.
+data/witness.json -text

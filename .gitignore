@@ -30,3 +30,5 @@ paper/figures/*.png
 # os
 .DS_Store
 Thumbs.db
+
+NJC_*_REPORT.txt

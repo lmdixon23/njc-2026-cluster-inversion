@@ -3,9 +3,18 @@
 set -euo pipefail
 export PYTHONHASHSEED=0
 
-PY=python3
-"$PY" -c "" 2>/dev/null || PY=python
-"$PY" -c "" 2>/dev/null || { echo "no working Python interpreter found"; exit 1; }
+# Select an interpreter that carries the pinned dependencies, not merely one
+# that starts. An explicit choice may be supplied as PY=/path/to/python.
+# On systems where `bash` resolves to the Windows Subsystem for Linux, the
+# default interpreter is a separate installation and may lack them.
+PY="${PY:-python3}"
+"$PY" -c "import flint" 2>/dev/null || PY=python
+"$PY" -c "import flint" 2>/dev/null || {
+  echo "no interpreter with the pinned dependencies found (python-flint missing)."
+  echo "install requirements-lock.txt, or run: PY=/path/to/python bash run_all.sh"
+  exit 1
+}
+"$PY" -c "import sys, flint; print('Interpreter:', sys.executable, '| flint', flint.__version__)"
 
 printf '%s\n' '== Canonical-file integrity =='
 "$PY" code/verify_sha256_manifest.py

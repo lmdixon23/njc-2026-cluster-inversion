@@ -17,20 +17,20 @@
     "compact": {
       "role": "check_report",
       "verdict": "PASS",
-      "sha256": "86092c1523b3d76a45f348ce8c6e623eb28cd3843a8336428767eb17a2c175fb",
-      "bytes": 1763
+      "sha256": "41b18ab64e6e4cc49084cf10b9649afd9fdd31b2d6efeb4847ee7095d0f6e9f8",
+      "bytes": 1721
     },
     "compact_arb": {
       "role": "check_report",
       "verdict": "PASS",
-      "sha256": "6ddf1664809b9ef1cf6203d04e999729dd52b97c9676f9d41308b7d36063066f",
-      "bytes": 892
+      "sha256": "095b9bcb913646447f816229f9ca899e593b097a4dc8589b43696b649d557513",
+      "bytes": 851
     },
     "compact_independent": {
       "role": "check_report",
       "verdict": "PASS",
-      "sha256": "c973318677695d08fae919cd952058d927416cfb3fd4ce3cfd9f38db926e0dd0",
-      "bytes": 582
+      "sha256": "9c0f1c19872d65388c8af4fa849a7ea7582f4cc4dd75ca044d6e66e57a8d7fad",
+      "bytes": 542
     },
     "compact_leaf_paths": {
       "role": "data_export",

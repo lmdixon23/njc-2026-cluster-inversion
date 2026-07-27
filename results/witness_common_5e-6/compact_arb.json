@@ -5,7 +5,7 @@
   "precision_bits": 256,
   "witness_sha256": "b4268c92e31066cfa3ea8466dc181ad3bf5876fc29b512493c5d37807c157a40",
   "configuration_sha256": "d9d181f55227c5f9cd62940e75d6312957893ffadfb918b11be21284b44e2476",
-  "compact_report_sha256": "86092c1523b3d76a45f348ce8c6e623eb28cd3843a8336428767eb17a2c175fb",
+  "compact_report_sha256": "41b18ab64e6e4cc49084cf10b9649afd9fdd31b2d6efeb4847ee7095d0f6e9f8",
   "leaf_paths_sha256": "879c77e7f664a18a8f572adb771a14c9bc376dfe57d9d092a432d62b70057562",
   "delta_A": "1/200000",
   "delta_B": "1/200000",
@@ -18,6 +18,5 @@
   "maximum_path_depth": 30,
   "minimum_leaf_lower": "[2.039204035718401063562676225324782878352e-248 +/- 1.89e-288]",
   "failures": [],
-  "workers": 8,
-  "elapsed_seconds": 1.2651588916778564
+  "workers": 8
 }

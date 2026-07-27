@@ -106,9 +106,9 @@ Does an everywhere-nonsingular Jacobian force a smooth map to be globally inject
 
 Classical global-inversion theory obtains one-to-one behavior from properness, covering-space continuation, or quantitative derivative conditions \cite{gutu-jaramillo,ruzhansky-sugimoto}; neural-network injectivity has also been studied for other activation and architecture classes, including sharp results for ReLU networks~\cite{puthawala}.  The bounded saturating ridge setting considered here has a different geometry because escape to infinity produces a finite boundary object rather than an unbounded or piecewise-linear range.
 
-The present paper begins with a different $n=2$, $N=4$ network for which the mean-value route fails.  This network has $\det DF>0$ certified on all of $\R^2$ but a \emph{negative} segment-averaged Jacobian determinant at an explicit pair --- a certified \emph{separation example}, on which the mean-value univalence certificate provably fails. Injectivity of that network cannot be inferred from this calculation: a sign-vector analysis~\cite{mhr} narrows any collision to two open sectors but does not exclude it.  We prove that the map is injective by analyzing its boundary at infinity.
+The paper opens with an explicit $n=2$, $N=4$ network for which the mean-value route fails.  This network has $\det DF>0$ certified on all of $\R^2$ but a \emph{negative} segment-averaged Jacobian determinant at an explicit pair --- a certified \emph{separation example}, on which the mean-value univalence certificate provably fails. Injectivity of that network cannot be inferred from this calculation: a sign-vector analysis~\cite{mhr} narrows any collision to two open sectors but does not exclude it.  We prove that the map is injective by analyzing its boundary at infinity.
 
-The witness, its pointwise positivity certificate, and its negative and singular segment averages are stated here in full. Thus the separation result is a self-contained part of this manuscript; the new contribution is to resolve the witness's previously open injectivity question and develop the general boundary geometry that does so.
+The witness, its pointwise positivity certificate, and its negative and singular segment averages are stated here in full, so the separation result is self-contained. The contribution of the paper is to settle the injectivity of that witness and to develop the general boundary geometry that does so.
 
 \begin{quote}\emph{The canonical witness $F(x)=A\sigma(Bx+c)$ is a global $C^1$ diffeomorphism of $\R^2$ onto an explicit open octagon; in particular it is injective} (\Cref{cor:injective}).\end{quote}
 
@@ -160,7 +160,7 @@ For the canonical $n=2,N=4$ witness:
 \]
 \item there exists $t_*\in(0,1)$ such that $\det\overline{DF}(p,p+t_*(q-p))=0$.
 \end{enumerate}
-Thus pointwise Jacobian positivity does not imply the averaged-Jacobian nonsingularity hypothesis used by the standard mean-value univalence route.
+Thus pointwise Jacobian positivity does not imply the averaged-Jacobian nonsingularity hypothesis used by the standard mean-value univalence route.  By \Cref{cor:injective} the witness is nevertheless injective, so the criterion of \Cref{lem:mv} is strictly stronger than injectivity.  It is strictly stronger already at the closed width $N=n+1$ (\Cref{prop:coorddep}); what is specific to width $n+2$ is that the determinant ceases to be affine in a single varying slot, so no change of coordinate restores the commutation.
 \end{theorem}
 
 \begin{proof}
@@ -169,6 +169,157 @@ Part (i) is proved analytically for the witness by \Cref{prop:analytic-det}; the
 
 \begin{remark}
 \Cref{thm:separation} alone does not decide injectivity: a collision forces a singular segment average, but the converse fails. The remainder of the paper proves injectivity of this witness and develops the boundary geometry that supplies the missing global certificate.
+\end{remark}
+
+
+% =====================================================================
+\section{The mean-value certificate and the closed widths}\label{sec:closedwidth}
+
+This section fixes the certificate whose failure the paper studies, records the
+classical argument that closes the two lowest widths, and isolates a
+coordinate dependence that the classical argument conceals.
+
+\begin{lemma}[mean-value univalence; folklore]\label{lem:mv}
+Let $\Omega\subseteq\R^n$ be open and convex and $G\in C^1(\Omega,\R^n)$.  If
+the averaged Jacobian
+$\overline{DG}(x,y)=\int_0^1 DG\bigl(y+t(x-y)\bigr)\,dt$
+is nonsingular for all $x,y\in\Omega$, then $G$ is injective.
+\end{lemma}
+
+\begin{proof}
+Applying the fundamental theorem of calculus componentwise along the segment
+from $y$ to $x$, which lies in $\Omega$ by convexity, gives
+$G(x)-G(y)=\overline{DG}(x,y)(x-y)$.  Nonsingularity forces $x=y$ whenever
+$G(x)=G(y)$.
+\end{proof}
+
+\begin{theorem}[widths $N=n$ and $N=n+1$]\label{thm:closedwidths}
+Every $F(x)=A\sigma(Bx+c)$ with $N\le n+1$ and $\det DF$ nowhere zero on
+$\R^n$ is injective.
+\end{theorem}
+
+\begin{proof}
+Since $DF=A\operatorname{diag}(\sigma'(Bx+c))B$ is nonsingular and the middle
+factor is a positive diagonal, $\operatorname{rank}A=\operatorname{rank}B=n$;
+in particular $N\ge n$ and some $n$ rows of $B$ are independent.  Permute the
+hidden units so that the first $n$ rows form an invertible $B_1$ and set
+$y=B_1x+c_1$, an invertible affine change of the source.  The first $n$
+preactivations are then $y_1,\dots,y_n$.
+
+If $N=n$ the map becomes $y\mapsto A\sigma(y)$ with $A$ invertible, and
+$\sigma$ is a strictly increasing bijection $\R\to(0,1)$ applied
+coordinatewise, so the composite is injective.
+
+If $N=n+1$ the remaining preactivation is an affine function
+$\ell(y)=a^{\mathsf T}y+\beta$, and
+$F=C\sigma(y)+w\,\sigma(\ell(y))$ with $C\in\R^{n\times n}$, $w\in\R^n$.
+Substitute $u=\sigma(y)$.  Because $\sigma$ is a diffeomorphism of $\R$ onto
+$(0,1)$, this is a diffeomorphism of $\R^n$ onto the open cube $(0,1)^n$, and
+injectivity of $F$ is equivalent to injectivity of
+\[
+ T(u)=Cu+w\,h(u),\qquad h(u)=\sigma\bigl(\ell(\sigma^{-1}(u))\bigr),
+\]
+on $(0,1)^n$, which is open and convex.  Here
+$DT(u)=C+w\,\nabla h(u)^{\mathsf T}$, so $\det DT$ is an affine function of
+$\nabla h$.  Affine functions commute with averaging, whence
+\[
+ \det\overline{DT}(u,v)=\int_0^1\det DT\bigl(v+t(u-v)\bigr)\,dt .
+\]
+The integrand is continuous and nowhere zero on the connected set $(0,1)^n$,
+hence of constant sign, so the integral is nonzero and
+\Cref{lem:mv} applies to $T$.
+\end{proof}
+
+\begin{remark}[the mechanism, and where it lives]\label{rmk:mechanism}
+The proof succeeds because at kernel dimension one the determinant is affine
+in the single varying slot, so determinant and averaging commute.  At kernel
+dimension two the determinant is genuinely multilinear and the commutation can
+fail; that is the obstruction this paper exhibits at $N=n+2$.
+
+The commutation above holds along straight segments in the \emph{graph}
+coordinate $u=\sigma(y)$.  Straight segments in $x$ are not carried to
+straight segments in $u$, so \Cref{thm:closedwidths} does not assert that the
+averaged Jacobian in the original coordinate is nonsingular.
+\Cref{prop:coorddep} shows that it need not be, already at $N=n+1$.
+\end{remark}
+
+\begin{remark}[scope]\label{rmk:scope}
+For $n=1$ and every width, $\det DF>0$ means $F'>0$, so $F$ is strictly
+increasing and injective.  The regime left open by \Cref{thm:closedwidths} is
+therefore $n\ge2$ and $N\ge n+2$.
+\end{remark}
+
+\subsection{Coordinate dependence of the averaged-Jacobian criterion}
+
+The certificate of \Cref{lem:mv} is stronger than injectivity, and strictly so
+already where injectivity is guaranteed.
+
+\begin{proposition}[coordinate dependence at the closed width]\label{prop:coorddep}
+Let $n=2$, $N=3$ and
+\[
+ A=\begin{pmatrix} 0 & 1 & -10\\ 1 & 0 & -10\end{pmatrix},\qquad
+ B=\begin{pmatrix} 1 & 0\\ 0 & 1\\ 3/10 & 3/10\end{pmatrix},\qquad c=0 .
+\]
+Then $F(x)=A\sigma(Bx+c)$ satisfies $\det DF>0$ on $\R^2$ and is a global
+diffeomorphism onto an open hexagon, yet there are $p,q$ with
+$\det\overline{DF}(p,q)<0$, hence an intermediate pair at which
+$\overline{DF}$ is singular.  The hypothesis of \Cref{lem:mv} therefore fails
+in the original coordinate at width $N=n+1$.  It cannot fail at width $N=n$,
+where $\det\overline{DF}=\det A\,\det B\prod_i\delta_i$ carries the fixed sign
+of $\det A\det B$.
+\end{proposition}
+
+\begin{proof}
+The mixed minors are $m_{01}=-1$, $m_{02}=m_{12}=3$, so by Cauchy--Binet
+$\det DF=-\rho_0\rho_1+3\rho_0\rho_2+3\rho_1\rho_2$ with
+$\rho_i=\sigma'(z_i)$ and $z_2=\tfrac3{10}(z_0+z_1)$.  Dividing by
+$\rho_0\rho_1>0$, positivity is equivalent to $R>1$ where
+$R=3\rho_2(\rho_0^{-1}+\rho_1^{-1})$.  Using
+$\sigma'(t)^{-1}=2+2\cosh t$,
+\[
+ R=3\,\frac{2+\cosh z_0+\cosh z_1}{1+\cosh\bigl(\tfrac3{10}(z_0+z_1)\bigr)} ,
+\]
+so $R\ge6$ is equivalent to
+$\cosh z_0+\cosh z_1\ge 2\cosh\bigl(\tfrac3{10}(z_0+z_1)\bigr)$.  Now
+\[
+ \cosh z_0+\cosh z_1
+ =2\cosh\tfrac{z_0+z_1}{2}\,\cosh\tfrac{z_0-z_1}{2}
+ \ \ge\ 2\cosh\tfrac{z_0+z_1}{2}
+ \ \ge\ 2\cosh\bigl(\tfrac3{10}(z_0+z_1)\bigr),
+\]
+the first step because $\cosh\ge1$ and the second because
+$\tfrac3{10}<\tfrac12$ and $\cosh$ is even and increasing on $[0,\infty)$.
+Equality forces $z_0=z_1$ and $z_0+z_1=0$, so $R\ge6$ with equality only at
+the origin, and $\det DF\ge5\rho_0\rho_1>0$ everywhere.
+
+For the failure take $p=(-40,120)$ and $q=(40,-20)$.  The three divided
+differences are
+$\delta_i=\bigl(\sigma(t_i(q))-\sigma(t_i(p))\bigr)/\bigl(t_i(q)-t_i(p)\bigr)$
+with preactivation segments $[-40,40]$, $[120,-20]$ and $[24,6]$.  The first
+two straddle the origin and give $\delta_0=1/80$ and $\delta_1=1/140$ to
+within $e^{-20}$, while the third lies entirely on one side and is
+exponentially small, $\delta_2<\tfrac1{18}\bigl(1-\sigma(6)\bigr)$.  Hence
+$\det\overline{DF}(p,q)=-\delta_0\delta_1+3\delta_2(\delta_0+\delta_1)<0$;
+numerically it is $-8.1191\times10^{-5}$.  At the coincident pair
+$\overline{DF}(p,p)=DF(p)$ has positive determinant, and
+$\overline{DF}(p,p+s(q-p))$ is continuous in $s$, so some intermediate pair is
+singular.
+
+Finally the rows of $B$ are pairwise nonparallel, so \Cref{lem:polygon}
+applies.  The asymptotic polygon has the six distinct integer vertices
+$(0,0)$, $(0,1)$, $(1,0)$, $(1,1)$, $(-9,-9)$, $(-9,-10)$, $(-10,-9)$ arranged
+as a centrally symmetric hexagon with signed area $19$; exact integer
+orientation predicates show it is simple, and its winding spectrum is
+$\{0,1\}$.  \Cref{thm:main} gives that $F$ is a global diffeomorphism onto the
+bounded component, and \Cref{cor:iff} gives injectivity independently of
+\Cref{thm:closedwidths}.
+\end{proof}
+
+\begin{remark}
+The boundary for original-coordinate mean-value failure is therefore between
+$N=n$ and $N=n+1$.  It is a different boundary from the one separating the
+settled and unsettled widths of the injectivity question itself, and the two
+should not be conflated.
 \end{remark}
 
 % =====================================================================
@@ -349,7 +500,7 @@ The asymptotic polygon is a Jordan polygon if and only if $S\neq0$, the chain $C
 \end{theorem}
 
 \begin{proof}
-A simple closed polygon splits at the antipodal vertices $0,S$ into two embedded arcs with disjoint interiors.  Conversely, two embedded arcs with the same two endpoints and otherwise disjoint images have union homeomorphic to a circle.
+If $S=0$ the two half-chains share both endpoints and the vertex sequence of \Cref{prop:normal-form} repeats $0$, so the closed curve is not embedded; the condition $S\neq0$ is therefore necessary and is assumed throughout what follows.  Granting it, a simple closed polygon splits at the antipodal vertices $0,S$ into two embedded arcs with disjoint interiors.  Conversely, two embedded arcs with the same two endpoints and otherwise disjoint images have union homeomorphic to a circle.
 \end{proof}
 
 A complete all-cases semialgebraic criterion, including collinear and degenerate cases, is recorded in \Cref{app:polygon-criteria}. The main text now turns to the structural regimes that explain the witness.
@@ -653,11 +804,11 @@ Under the hypotheses of \Cref{thm:winding},
 The forward implication follows from \Cref{thm:winding}.  Conversely, the formula gives at most one preimage away from the polygonal loop.  If a point of the loop had two finite preimages, inverse-function neighborhoods of those preimages would share a common open image.  Since a polygonal loop has empty interior, that open set contains a nearby point off the loop with two preimages, a contradiction.
 \end{proof}
 
-In generic position every self-intersection is transverse.  Since \Cref{thm:winding} forces all signed winding values to be nonnegative, the four local regions around a transverse crossing cannot all have winding at most one. Hence, in the generic class, $F$ is injective if and only if its asymptotic polygon is simple.  The exact winding spectra are computed by \path{code/polygon_winding.py}: the witness octagon has spectrum $\{0,1\}$, and an exact self-intersecting centrally symmetric example has spectrum $\{0,1,2\}$ (\path{results/structural/winding_spectra.json}).
+Call the loop \emph{generic} if it has finitely many self-intersections, each a transverse crossing of two edge interiors with no three edges concurrent.  Let $w$ be the winding number of the region incident to such a crossing that is swept last in the cyclic order; crossing either strand changes the winding by $\pm1$, so the four local regions carry $w$, $w+a$, $w+b$ and $w+a+b$ for some $a,b\in\{\pm1\}$.  By \Cref{thm:winding} every signed winding value is a nonnegative integer.  If $a=b=-1$ then $w\ge2$; if $a$ and $b$ differ then $w\ge1$ and $w+a+b=w$, while the larger of $w+a,w+b$ is $w+1$, forcing the maximum to be at least $2$ unless $w=0$, in which case one region has winding $-1$, a contradiction; and if $a=b=+1$ then $w+a+b=w+2\ge2$.  In every case some local region has winding at least $2$. Hence, in the generic class, $F$ is injective if and only if its asymptotic polygon is simple.  The exact winding spectra are computed by \path{code/polygon_winding.py}: the witness octagon has spectrum $\{0,1\}$, and an exact self-intersecting centrally symmetric example has spectrum $\{0,1,2\}$ (\path{results/structural/winding_spectra.json}).
 
 % =====================================================================
 \section{The remaining four-ridge boundary obstruction}\label{sec:n4}
-For $n=2$, $N=4$, the boundary loop is a centrally symmetric octagon. \Cref{cor:iff} makes its signed winding spectrum the exact multiplicity invariant. The witness studied here has spectrum $\{0,1\}$ and is injective. More generally, the degree--winding formula shows that a positive-Jacobian network would fail to be injective precisely when its asymptotic octagon has a region of winding at least two. Thus the unrestricted four-ridge question is reduced to compatibility between pointwise determinant positivity and such boundary winding; that compatibility question is outside the scope of this paper.
+For $n=2$, $N=4$, the boundary loop is a centrally symmetric octagon. \Cref{cor:iff} makes its signed winding spectrum the exact multiplicity invariant. The witness studied here has spectrum $\{0,1\}$ and is injective. More generally, the degree--winding formula shows that a positive-Jacobian network would fail to be injective precisely when its asymptotic octagon has a region of winding at least two. Thus the unrestricted four-ridge question is reduced to compatibility between pointwise determinant positivity and such boundary winding.  A companion paper by the author resolves that compatibility question in the negative, by exhibiting an exact rational four-ridge network with everywhere-positive Jacobian determinant whose asymptotic octagon carries winding two; the present results are independent of that resolution.
 
 Central symmetry by itself does not control the spectrum.  For comparison, the exact loop with first-half edges
 \[
@@ -759,6 +910,7 @@ Closed-form high-precision recomputation and IVT argument\\
 release gate is
 \begin{quote}\ttfamily bash run\_all.sh
 \end{quote}
+On Windows use \texttt{run\_all.ps1} instead: \texttt{bash} frequently resolves to the WSL application alias, which runs a separate Linux interpreter that does not carry the pinned dependencies of \texttt{requirements-lock.txt}.  The repository fixes LF line endings on every platform through \texttt{.gitattributes}, and the artifact writers pin LF explicitly; a manifest mismatch accompanied by a clean \texttt{git status} therefore indicates a line-ending translation rather than a content difference.  Persisted certificate reports carry no wall-clock timings, so re-running any certification reproduces its artifacts byte for byte and the manifest remains valid.  All script output is ASCII, so the gate may be run with its output redirected to a file or captured by a continuous-integration job on any platform.
 and ends with \texttt{VERDICT: ALL MAINTAINED CHECKS PASSED}. The expensive
 common-radius workflow is
 \begin{quote}\ttfamily python code/certify\_open\_family.py config/witness\_common.json.

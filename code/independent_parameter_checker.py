@@ -13,6 +13,21 @@ from pathlib import Path
 from decimal_interval import DI, D, sigma_prime
 
 
+
+
+def _strip_timing(payload):
+    """Return a copy with wall-clock fields removed, recursively.
+
+    Persisted artifacts are content-addressed in SHA256SUMS.txt, so their bytes
+    must depend only on the mathematics.  Timings stay on stdout.
+    """
+    if isinstance(payload, dict):
+        return {k: _strip_timing(v) for k, v in payload.items()
+                if k != "elapsed_seconds"}
+    if isinstance(payload, list):
+        return [_strip_timing(v) for v in payload]
+    return payload
+
 def load(path: Path):
     return json.loads(path.read_text(encoding='utf-8'), parse_float=Decimal, parse_int=Decimal)
 
@@ -103,7 +118,7 @@ def main():
     da=D(a.delta_a) if a.delta_a else d; db=D(a.delta_b) if a.delta_b else d; dc=D(a.delta_c) if a.delta_c else d
     res=certify(load(Path(a.witness)),da,db,dc,a.R,D(a.hmin),a.budget,a.progress)
     print(json.dumps(res,indent=2))
-    if a.json_out: Path(a.json_out).write_text(json.dumps(res,indent=2)+'\n')
+    if a.json_out: Path(a.json_out).write_text(json.dumps(_strip_timing(res),indent=2)+'\n', newline="\n")
     raise SystemExit(0 if res['verdict']=='PASS' else 1)
 
 if __name__=='__main__': main()

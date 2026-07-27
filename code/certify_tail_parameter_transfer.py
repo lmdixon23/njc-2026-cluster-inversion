@@ -87,6 +87,6 @@ def main():
       'method':'analytic uniform transfer from certified point-tail grid margin'
     }
     text=json.dumps(out,indent=2)+'\n'; print(text,end='')
-    if args.out: Path(args.out).write_text(text)
+    if args.out: Path(args.out).write_text(text, newline="\n")
     return 0 if passed else 1
 if __name__=='__main__': raise SystemExit(main())

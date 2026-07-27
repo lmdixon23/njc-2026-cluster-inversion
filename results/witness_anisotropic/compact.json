@@ -72,7 +72,6 @@
     "unresolved": 0,
     "budget_exhausted": false,
     "first_failures": [],
-    "elapsed_seconds": 37.98228073120117,
     "smallest_seen_lower": "-0.03161556738532057819757170591401518322527"
   },
   "verdict": "PASS"

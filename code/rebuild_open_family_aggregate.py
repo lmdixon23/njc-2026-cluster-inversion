@@ -22,7 +22,7 @@ def main() -> int:
         combined = build_combined(report_dir.resolve(), config_path)
     except ReportValidationError as exc:
         raise SystemExit(f"semantic report validation failed: {exc}") from exc
-    existing.write_text(json.dumps(combined, indent=2) + "\n", encoding="utf-8")
+    existing.write_text(json.dumps(combined, indent=2) + "\n", encoding="utf-8", newline="\n")
     print(json.dumps(combined, indent=2))
     return 0
 

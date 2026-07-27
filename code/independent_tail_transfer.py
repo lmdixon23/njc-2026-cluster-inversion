@@ -51,6 +51,6 @@ def main():
     worst=max(degradation,key=degradation.get); residual=down(lambda: D(a.base_margin)-degradation[worst])
     out={'verdict':'PASS' if signs and residual>0 else 'FAIL','delta_A':str(da),'delta_B':str(db),'delta_c':str(dc),'minor_sign_preservation':signs,'minor_error_upper':{str(k):str(v) for k,v in err.items()},'log_loss_upper':{str(k):str(v) for k,v in omega.items()},'common_rate_bias_arc_loss_upper':str(common),'worst_pair':list(worst),'degradation_upper':str(degradation[worst]),'residual_lower':str(residual),'arithmetic':'independent Decimal, 80 digits, outward padding'}
     print(json.dumps(out,indent=2))
-    if a.json_out: Path(a.json_out).write_text(json.dumps(out,indent=2)+'\n')
+    if a.json_out: Path(a.json_out).write_text(json.dumps(out,indent=2)+'\n', newline="\n")
     raise SystemExit(0 if out['verdict']=='PASS' else 1)
 if __name__=='__main__': main()

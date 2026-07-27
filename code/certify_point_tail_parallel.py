@@ -15,6 +15,21 @@ from pathlib import Path
 from mpmath import iv, mp
 
 
+
+
+def _strip_timing(payload):
+    """Return a copy with wall-clock fields removed, recursively.
+
+    Persisted artifacts are content-addressed in SHA256SUMS.txt, so their bytes
+    must depend only on the mathematics.  Timings stay on stdout.
+    """
+    if isinstance(payload, dict):
+        return {k: _strip_timing(v) for k, v in payload.items()
+                if k != "elapsed_seconds"}
+    if isinstance(payload, list):
+        return [_strip_timing(v) for v in payload]
+    return payload
+
 def load(path: Path):
     raw=path.read_bytes(); d=json.loads(raw.decode('utf-8'),parse_float=Decimal)
     A=[[F(x) for x in r] for r in d['A']]
@@ -102,6 +117,6 @@ def main():
       'verdict':'PASS' if passed and mp.mpf(worstpart['worst'])>0 else 'FAIL',
       'method':'parallel mpmath.iv fixed-radius angular-grid certificate; exact rational witness input'
     }
-    text=json.dumps(out,indent=2)+'\n'; print(text,end=''); Path(a.json_out).write_text(text)
+    text=json.dumps(out,indent=2)+'\n'; print(text,end=''); Path(a.json_out).write_text(json.dumps(_strip_timing(out),indent=2)+'\n', newline="\n")
     return 0 if out['verdict']=='PASS' else 1
 if __name__=='__main__': raise SystemExit(main())

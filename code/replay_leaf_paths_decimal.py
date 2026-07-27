@@ -16,6 +16,21 @@ from decimal_interval import D
 
 _DATA=None; _M=None; _B=None; _C=None; _R=None
 
+
+
+def _strip_timing(payload):
+    """Return a copy with wall-clock fields removed, recursively.
+
+    Persisted artifacts are content-addressed in SHA256SUMS.txt, so their bytes
+    must depend only on the mathematics.  Timings stay on stdout.
+    """
+    if isinstance(payload, dict):
+        return {k: _strip_timing(v) for k, v in payload.items()
+                if k != "elapsed_seconds"}
+    if isinstance(payload, list):
+        return [_strip_timing(v) for v in payload]
+    return payload
+
 def init_worker(witness,da,db,dc,R):
     global _DATA,_M,_B,_C,_R
     _DATA=load(Path(witness)); A,_B,_C=params(_DATA,D(da),D(db),D(dc)); _M=minors(A,_B); _R=Decimal(str(R))
@@ -66,6 +81,6 @@ def main():
             if not ok and len(bad)<10: bad.append({'path':path,'interval':[lo,hi]})
     out={'verdict':'PASS' if pf and vol_ok and not bad and checked==len(paths) else 'FAIL','arithmetic':'custom Decimal interval diagnostic','delta_A':da,'delta_B':db,'delta_c':dc,'leaf_count':len(paths),'checked':checked,'prefix_free':pf,'exact_volume_closure':vol_ok,'volume':vol,'minimum_leaf_lower':str(minlo),'failures':bad,'elapsed_seconds':time.time()-t,'workers':a.workers}
     print(json.dumps(out,indent=2))
-    if a.json_out: Path(a.json_out).write_text(json.dumps(out,indent=2)+'\n')
+    if a.json_out: Path(a.json_out).write_text(json.dumps(_strip_timing(out),indent=2)+'\n', newline="\n")
     raise SystemExit(0 if out['verdict']=='PASS' else 1)
 if __name__=='__main__': main()

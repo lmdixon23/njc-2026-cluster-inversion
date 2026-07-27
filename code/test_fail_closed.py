@@ -47,7 +47,7 @@ def main() -> int:
         for row in range(2):
             witness["A"][row][1] = -witness["A"][row][1]
         bad_witness = temp / "bad-witness.json"
-        bad_witness.write_text(json.dumps(witness, indent=2) + "\n", encoding="utf-8")
+        bad_witness.write_text(json.dumps(witness, indent=2) + "\n", encoding="utf-8", newline="\n")
         analytic_output = temp / "analytic.json"
         result = run(ROOT / "code" / "certify_analytic_determinant.py", "--witness", bad_witness, "--json-out", analytic_output)
         require(det_at_origin(witness) < 0, "analytic plant no longer has a negative determinant")
@@ -56,7 +56,7 @@ def main() -> int:
         print("[PASS] omitted analytic premises fail closed")
 
         empty_state = temp / "empty-state.json"
-        empty_state.write_text(json.dumps({"processed": 0, "certified": 0, "paths": [], "worst": "+inf", "stack": []}), encoding="utf-8")
+        empty_state.write_text(json.dumps({"processed": 0, "certified": 0, "paths": [], "worst": "+inf", "stack": []}), encoding="utf-8", newline="\n")
         result = run(
             ROOT / "code" / "certify_parameter_radius.py", "--delta", "0", "--skip-tail",
             "--state-file", empty_state, "--json-out", temp / "empty-state-report.json",
@@ -65,7 +65,7 @@ def main() -> int:
         print("[PASS] forged compact state fails closed")
 
         tail_state = temp / "tail-state.json"
-        tail_state.write_text(json.dumps({"next_k": 200000, "worst": "1", "worstk": 0}), encoding="utf-8")
+        tail_state.write_text(json.dumps({"next_k": 200000, "worst": "1", "worstk": 0}), encoding="utf-8", newline="\n")
         result = run(
             ROOT / "code" / "certify_parameter_radius.py", "--delta", "0", "--skip-interior",
             "--tail-state-file", tail_state, "--json-out", temp / "tail-state-report.json",
@@ -106,11 +106,11 @@ def main() -> int:
         compact = json.loads(compact_path.read_text())
         compact["interior"]["passed"] = False
         compact["interior"]["unresolved"] = 1
-        compact_path.write_text(json.dumps(compact, indent=2) + "\n", encoding="utf-8")
+        compact_path.write_text(json.dumps(compact, indent=2) + "\n", encoding="utf-8", newline="\n")
         arb_path = report_copy / "compact_arb.json"
         arb_report = json.loads(arb_path.read_text())
         arb_report["compact_report_sha256"] = hashlib.sha256(compact_path.read_bytes()).hexdigest()
-        arb_path.write_text(json.dumps(arb_report, indent=2) + "\n", encoding="utf-8")
+        arb_path.write_text(json.dumps(arb_report, indent=2) + "\n", encoding="utf-8", newline="\n")
         result = run(
             ROOT / "code" / "rebuild_open_family_aggregate.py", report_copy,
             "--config", ROOT / "config" / "witness_common.json",
@@ -130,7 +130,7 @@ def main() -> int:
 
         lines = (ROOT / "SHA256SUMS.txt").read_text(encoding="utf-8").splitlines()
         incomplete_manifest = temp / "SHA256SUMS-incomplete.txt"
-        incomplete_manifest.write_text("\n".join(lines[1:]) + "\n", encoding="utf-8")
+        incomplete_manifest.write_text("\n".join(lines[1:]) + "\n", encoding="utf-8", newline="\n")
         result = run(ROOT / "code" / "verify_sha256_manifest.py", "--manifest", incomplete_manifest)
         require(result.returncode != 0, "incomplete manifest passed verification", result)
         print("[PASS] incomplete manifest fails closed")

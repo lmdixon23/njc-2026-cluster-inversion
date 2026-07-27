@@ -58,5 +58,5 @@ def main():
         combined=build_combined(out,config_path)
     except ReportValidationError as exc:
         raise SystemExit(f'semantic report validation failed: {exc}') from exc
-    (out/'combined.json').write_text(json.dumps(combined,indent=2)+'\n'); print(json.dumps(combined,indent=2)); return 0
+    (out/'combined.json').write_text(json.dumps(combined,indent=2)+'\n', newline="\n"); print(json.dumps(combined,indent=2)); return 0
 if __name__=='__main__': raise SystemExit(main())

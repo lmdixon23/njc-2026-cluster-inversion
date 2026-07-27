@@ -22,6 +22,21 @@ import mpmath
 from mpmath import iv, mp
 
 
+
+
+def _strip_timing(payload):
+    """Return a copy with wall-clock fields removed, recursively.
+
+    Persisted artifacts are content-addressed in SHA256SUMS.txt, so their bytes
+    must depend only on the mathematics.  Timings stay on stdout.
+    """
+    if isinstance(payload, dict):
+        return {k: _strip_timing(v) for k, v in payload.items()
+                if k != "elapsed_seconds"}
+    if isinstance(payload, list):
+        return [_strip_timing(v) for v in payload]
+    return payload
+
 def load_witness(path: Path):
     raw = path.read_bytes()
     data = json.loads(raw.decode('utf-8'), parse_float=Decimal)
@@ -244,11 +259,11 @@ def interior_certify(R,BI,cI,mI,hmin=F('0.008'),budget=40_000_000,progress=0,lea
     if state_file:
         if paused:
             payload={'schema':'parameter-radius-interior-state-v2','context':state_context,'context_sha256':canonical_hash(state_context),'processed':processed,'certified':certified,'paths':leaves,'worst':str(worst),'stack':[{'box':[str(z) for z in box],'path':path} for box,path in stack]}
-            Path(state_file).write_text(json.dumps(payload,separators=(',',':'))+'\n')
+            Path(state_file).write_text(json.dumps(payload,separators=(',',':'))+'\n', newline="\n")
         elif Path(state_file).exists():
             Path(state_file).unlink()
     if leaf_out and not stack and not fails:
-        Path(leaf_out).write_text(json.dumps({'R':str(R),'split_rule':SPLIT_RULE,'paths':leaves},separators=(',',':'))+'\n')
+        Path(leaf_out).write_text(json.dumps({'R':str(R),'split_rule':SPLIT_RULE,'paths':leaves},separators=(',',':'))+'\n', newline="\n")
     return {
         'passed': not fails and not stack,
         'paused': paused,
@@ -326,7 +341,7 @@ def main():
     except (ValueError,KeyError,TypeError,json.JSONDecodeError) as exc:
         res={'verdict':'FAIL','failure':f'invalid checkpoint or input: {exc}'}
     print(json.dumps(res,indent=2))
-    if args.json_out: Path(args.json_out).write_text(json.dumps(res,indent=2)+'\n')
+    if args.json_out: Path(args.json_out).write_text(json.dumps(_strip_timing(res),indent=2)+'\n', newline="\n")
     return 0 if res['verdict']=='PASS' else 2 if res['verdict']=='PAUSED' else 1
 
 if __name__=='__main__': raise SystemExit(main())

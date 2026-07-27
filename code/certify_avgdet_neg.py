@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 r"""
-certify_avgdet_neg.py — RIGOROUS (validated-interval) certificate that the
+certify_avgdet_neg.py -- RIGOROUS (validated-interval) certificate that the
 SEGMENT-AVERAGED Jacobian determinant of the witness is NEGATIVE at the shipped
 collision-candidate pair (p,q):   det avg-DF(p,q) < 0,   where
 
@@ -115,9 +115,9 @@ def main():
     print(f"det avg-DF enclosure = [{mp.nstr(mp.mpf(det.a),8)}, {mp.nstr(mp.mpf(det.b),8)}]")
     print("=" * 60)
     if mp.mpf(det.b) < 0:
-        print("VERDICT: PASS — det avg-DF(p,q) < 0 certified (upper endpoint < 0).")
+        print("VERDICT: PASS -- det avg-DF(p,q) < 0 certified (upper endpoint < 0).")
         return 0
-    print("VERDICT: FAIL — det avg-DF enclosure does not exclude 0 from above.")
+    print("VERDICT: FAIL -- det avg-DF enclosure does not exclude 0 from above.")
     return 1
 
 

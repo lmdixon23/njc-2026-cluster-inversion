@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 r"""
-certify_det_exact.py — RIGOROUS (validated-interval) certificate that
+certify_det_exact.py -- RIGOROUS (validated-interval) certificate that
 det DF(x) > 0 for all x in R^2, for F(x)=A*sigma(Bx+c), read DIRECTLY from the
 frozen data/witness.json.
 
@@ -209,7 +209,7 @@ def tail_certify_fixed_R(R, B, c, m, pos, neg, Mgrid=200000, verbose=False):
 
 
 # --------------------------------------------------------------------------
-# selftest — validate every primitive fast, before any long run
+# selftest -- validate every primitive fast, before any long run
 # --------------------------------------------------------------------------
 def selftest(A, B, c, m, pos, neg, m_iv):
     ok = True
@@ -296,7 +296,7 @@ def main():
         sys.exit(0)
 
     print("-" * 72)
-    print("TAIL (det DF>0 outside radius R0) — fixed-R certification:")
+    print("TAIL (det DF>0 outside radius R0) -- fixed-R certification:")
     R0 = None
     for Rtry in (582, 583, 585, 600):
         okR, worst = tail_certify_fixed_R(Rtry, B, c, m, pos, neg, Mgrid=args.grid)
@@ -349,12 +349,12 @@ def main():
           f"time={time.time()-t0:.0f}s")
     if fails or budget_exhausted:
         print("=" * 72)
-        print("VERDICT: FAIL — det DF>0 NOT certified "
+        print("VERDICT: FAIL -- det DF>0 NOT certified "
               + ("(uncertified boxes below hmin: try smaller --hmin / higher --dps)"
                  if fails else "(budget exhausted: raise --budget)"))
         sys.exit(1)
     print("=" * 72)
-    print("VERDICT: PASS — det DF(x) > 0 for all x in R^2, "
+    print("VERDICT: PASS -- det DF(x) > 0 for all x in R^2, "
           "rigorously (validated intervals, exact witness.json input).")
     sys.exit(0)
 

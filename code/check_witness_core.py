@@ -44,7 +44,7 @@ for (i,j), val in m.items():
     cl = claimed[key]
     ok = abs(float(val) - float(cl)) <= 1e-12
     ok_all &= ok
-    print(f'm_{i}{j} exact≈{float(val):+.17g}  claimed {float(cl):+.17g}  display_match={ok}')
+    print(f'm_{i}{j} exact~{float(val):+.17g}  claimed {float(cl):+.17g}  display_match={ok}')
 negative_display_match = abs(float(m[(2,3)]) - float(d['claimed']['negative_minor_value'])) <= 1e-12
 print('claimed negative_minor_value display match:', negative_display_match)
 signs = sorted([(i,j) for (i,j),v in m.items() if v > 0]), sorted([(i,j) for (i,j),v in m.items() if v < 0])
@@ -144,7 +144,7 @@ for _ in range(60):
 tm = (lo+hi)/2
 vmin = detDF_at_t(arb(tm))
 print('argmin t ~ %.10f   min det DF ~ %s' % (tm, vmin.str(20)))
-print('claimed min_detDF_on_segment =', float(d['claimed']['min_detDF_on_segment']))
+print('claimed sampled_min_detDF_on_segment (201-point sample, not a certified lower bound) =', float(d['claimed']['min_detDF_on_segment']))
 print('scan-min positive:', vals[0][0] > 0)
 print('\nall minors double-match:', ok_all)
 if not ok_all or not negative_display_match:

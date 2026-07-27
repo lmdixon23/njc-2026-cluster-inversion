@@ -14,6 +14,21 @@ from pathlib import Path
 from flint import arb, ctx
 
 
+
+
+def _strip_timing(payload):
+    """Return a copy with wall-clock fields removed, recursively.
+
+    Persisted artifacts are content-addressed in SHA256SUMS.txt, so their bytes
+    must depend only on the mathematics.  Timings stay on stdout.
+    """
+    if isinstance(payload, dict):
+        return {k: _strip_timing(v) for k, v in payload.items()
+                if k != "elapsed_seconds"}
+    if isinstance(payload, list):
+        return [_strip_timing(v) for v in payload]
+    return payload
+
 def fraction_text(value: F) -> str:
     return f"{value.numerator}/{value.denominator}"
 
@@ -162,7 +177,7 @@ def main() -> int:
         "elapsed_seconds": time.time() - started,
     }
     text = json.dumps(report, indent=2) + "\n"
-    Path(args.json_out).write_text(text, encoding="utf-8")
+    Path(args.json_out).write_text(json.dumps(_strip_timing(report), indent=2) + "\n", encoding="utf-8", newline="\n")
     print(text, end="")
     return 0 if passed else 1
 

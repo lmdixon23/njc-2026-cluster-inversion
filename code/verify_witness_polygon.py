@@ -100,7 +100,7 @@ def main() -> int:
     print(f"VERDICT: {report['verdict']}")
 
     if args.json_out:
-        Path(args.json_out).write_text(json.dumps(jsonable(report), indent=2) + "\n", encoding="utf-8")
+        Path(args.json_out).write_text(json.dumps(jsonable(report), indent=2) + "\n", encoding="utf-8", newline="\n")
     return 0 if passed else 1
 
 

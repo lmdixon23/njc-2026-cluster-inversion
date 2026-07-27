@@ -19,6 +19,6 @@ def main():
     proc=subprocess.run([sys.executable,str(ROOT/'code/certify_analytic_determinant.py'),'--witness',str(path),'--mu','1/10','--json-out',str(cert)],cwd=ROOT,check=True)
     det_report=json.load(open(cert))
     out={'polygon_simple':simple,'strictly_convex':convex,'failures':fail,'q':q,'one_sided':one,'mixed_minors':minors,'determinant_certificate':det_report,'verdict':'PASS' if simple and not convex and det_report['verdict']=='PASS' else 'FAIL'}
-    op=ROOT/'results/structural/analytic_family_example.json';op.parent.mkdir(parents=True,exist_ok=True);op.write_text(json.dumps(jsonable(out),indent=2)+'\n')
+    op=ROOT/'results/structural/analytic_family_example.json';op.parent.mkdir(parents=True,exist_ok=True);op.write_text(json.dumps(jsonable(out),indent=2)+'\n', newline="\n")
     print(json.dumps(jsonable(out),indent=2));return 0 if out['verdict']=='PASS' else 1
 if __name__=='__main__':raise SystemExit(main())

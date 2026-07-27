@@ -75,7 +75,7 @@ def main():
       'margin_interval':iv_bounds(margin),
       'verdict':'PASS' if passed else 'FAIL'
     }
-    out=Path(ns.json_out);out.parent.mkdir(parents=True,exist_ok=True);out.write_text(json.dumps(report,indent=2)+'\n')
+    out=Path(ns.json_out);out.parent.mkdir(parents=True,exist_ok=True);out.write_text(json.dumps(report,indent=2)+'\n', newline="\n")
     print(json.dumps(report,indent=2))
     return 0 if passed else 1
 if __name__=='__main__': raise SystemExit(main())

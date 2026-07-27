@@ -25,6 +25,6 @@ def jac(x,y):
 # rational point near the deterministic grid minimum
 p=(Q(-11,10),Q(-57,20));val=jac(*p)
 out={'A':A,'B':B,'mixed_coefficients':{f'{i}{j}':v for (i,j),v in m.items()},'probe_point':p,'determinant_at_probe':val,'conclusion':'NOT_A_COUNTEREXAMPLE' if val<0 else 'INCONCLUSIVE','verdict':'PASS' if val<0 else 'FAIL'}
-path=ROOT/'results/structural/n4_winding_obstruction_probe.json';path.write_text(json.dumps(out,default=lambda o:str(o),indent=2)+'\n')
+path=ROOT/'results/structural/n4_winding_obstruction_probe.json';path.write_text(json.dumps(out,default=lambda o:str(o),indent=2)+'\n', newline="\n")
 print(json.dumps(out,default=lambda o:str(o),indent=2));returncode=0 if val<0 else 1
 raise SystemExit(returncode)

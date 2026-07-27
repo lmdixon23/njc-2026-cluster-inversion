@@ -68,5 +68,5 @@ def main():
     ob=obstruction_polygon()
     out={'witness':{'vertices':wp,'spectrum':spectrum(wp)},'central_winding_two_obstruction':{'vertices':ob,'spectrum':spectrum(ob)}}
     out['verdict']='PASS' if out['witness']['spectrum']['winding_values']==[0,1] and 2 in out['central_winding_two_obstruction']['spectrum']['winding_values'] else 'FAIL'
-    p=ROOT/ns.json_out;p.parent.mkdir(parents=True,exist_ok=True);p.write_text(json.dumps(jsonable(out),indent=2)+'\n');print(json.dumps(jsonable(out),indent=2));return 0 if out['verdict']=='PASS' else 1
+    p=ROOT/ns.json_out;p.parent.mkdir(parents=True,exist_ok=True);p.write_text(json.dumps(jsonable(out),indent=2)+'\n', newline="\n");print(json.dumps(jsonable(out),indent=2));return 0 if out['verdict']=='PASS' else 1
 if __name__=='__main__':raise SystemExit(main())

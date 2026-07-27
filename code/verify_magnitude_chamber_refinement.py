@@ -144,7 +144,7 @@ def main() -> int:
     }
     output = ROOT / ns.json_out
     output.parent.mkdir(parents=True, exist_ok=True)
-    output.write_text(json.dumps(jsonable(out), indent=2) + "\n", encoding="utf-8")
+    output.write_text(json.dumps(jsonable(out), indent=2) + "\n", encoding="utf-8", newline="\n")
     print(json.dumps(jsonable(out), indent=2))
     return 0 if verdict == "PASS" else 1
 

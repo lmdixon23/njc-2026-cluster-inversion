@@ -33,6 +33,6 @@ def main():
     passed=(out['convex_sign_coherent']['simple'] and out['convex_sign_coherent']['strictly_convex'] and out['nonconvex_simple']['simple'] and not out['nonconvex_simple']['strictly_convex'] and not out['same_sign_data_self_intersecting']['simple'] and sign_same)
     out['verdict']='PASS' if passed else 'FAIL'
     root=Path(__file__).resolve().parents[1]
-    (root/'verification'/'comparison_examples.json').write_text(json.dumps(jsonable(out),indent=2)+'\n')
+    (root/'verification'/'comparison_examples.json').write_text(json.dumps(jsonable(out),indent=2)+'\n', newline="\n")
     print(json.dumps(jsonable(out),indent=2)); raise SystemExit(0 if passed else 1)
 if __name__=='__main__': main()

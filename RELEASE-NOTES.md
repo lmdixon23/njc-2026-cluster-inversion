@@ -1,5 +1,11 @@
 # Release notes
 
+## v1.1.0 - 2026-07-27
+
+- Added a section proving the closed widths in graph coordinates and a proposition showing the averaged-Jacobian criterion is coordinate dependent.
+- Reported the optimizer clamp and bridge loss for the analytic certificate; corrected the anisotropic box description; stated the independence of the Arb replay; bounded the novelty claim.
+- Fixed cross-platform reproducibility: LF checkout and LF artifact writers, timing-free persisted reports, ASCII gate output, and dependency-aware interpreter selection in run_all.sh.
+
 ## v1.0.0 — 2026-07-17
 
 - Provides the self contained Paper II manuscript, including the separation

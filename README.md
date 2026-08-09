@@ -3,8 +3,8 @@
 [![verify](https://github.com/lmdixon23/njc-2026-cluster-inversion/actions/workflows/verify.yml/badge.svg)](https://github.com/lmdixon23/njc-2026-cluster-inversion/actions/workflows/verify.yml)
 
 This repository contains the manuscript source, exact data, and reproducibility
-materials for Asymptotic polygon global inversion for planar saturating ridge
-networks and an injective neural Jacobian separation witness.
+materials for *Asymptotic-polygon global inversion for planar saturating ridge
+networks and an injective neural-Jacobian separation witness*.
 
 Repository: https://github.com/lmdixon23/njc-2026-cluster-inversion
 

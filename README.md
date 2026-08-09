@@ -1,12 +1,16 @@
-# Asymptotic polygon global inversion
+# Asymptotic-polygon global inversion for planar saturating ridge networks and an injective neural-Jacobian separation witness
 
 [![verify](https://github.com/lmdixon23/njc-2026-cluster-inversion/actions/workflows/verify.yml/badge.svg)](https://github.com/lmdixon23/njc-2026-cluster-inversion/actions/workflows/verify.yml)
 
 This repository contains the manuscript source, exact data, and reproducibility
-materials for Asymptotic polygon global inversion for planar saturating ridge
-networks and an injective neural Jacobian separation witness.
+materials for *Asymptotic-polygon global inversion for planar saturating ridge
+networks and an injective neural-Jacobian separation witness*.
 
 Repository: https://github.com/lmdixon23/njc-2026-cluster-inversion
+
+## Main result
+
+The manuscript develops a global-inversion theorem for planar saturating ridge networks and resolves the canonical separation witness as an injective global diffeomorphism onto an explicit nonconvex octagon. Exact and validated parameter certificates show that the mechanism persists on an explicit open neighborhood.
 
 ## Repository contents
 
@@ -39,6 +43,14 @@ The gate verifies complete repository integrity, exact witness and polygon
 geometry, semantic consistency of every proof report and aggregate, the
 structural analytic and winding package, independent Arb evidence, and focused
 negative regressions for the previously identified false PASS paths.
+
+## Related research
+
+The separate [planar four-ridge counterexample repository](https://github.com/lmdixon23/njc-2026-planar-n4-winding) gives the exact positive-Jacobian noninjective counterexample at the next hidden width and the resulting sharp hidden-width threshold.
+
+## Author
+
+Logan M. Dixon · [research site](https://lmdixon23.github.io/) · [ORCID](https://orcid.org/0009-0001-0592-462X)
 
 ## Build
 

@@ -1,5 +1,14 @@
 # Release notes
 
+## Candidate v1.2.0 - 2026-09-28
+
+- Corrected the closed-width coordinate-dependence example: the asymptotic hexagon now lists exactly its six attainable vertices, and the negative averaged-determinant claim is proved by an explicit rational bound rather than an informal asymptotic estimate.
+- Rewrote the generic self-crossing argument in terms of signed multiplicity $\varepsilon\,\mathrm{wind}$, eliminating an orientation-sign ambiguity while preserving the criterion.
+- Added a fail-closed exact regression for the closed-width example and connected it to the maintained theorem-package gate.
+- Tightened verification provenance language to distinguish separate internal implementations from external review, refreshed bibliographic metadata, and removed a nonessential higher-dimensional aside.
+- Regenerated the fixed-radius Arb tail replay with wall-clock timing removed from the persisted JSON, making that canonical certificate deterministic under exact rerun.
+- Refreshed manuscript date and prospective `v1.2.0` release references for the publication candidate; the tag must be minted only after the exact reviewed bytes are finalized.
+
 ## v1.1.0 - 2026-07-27
 
 - Added a section proving the closed widths in graph coordinates and a proposition showing the averaged-Jacobian criterion is coordinate dependent.

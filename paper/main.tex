@@ -85,13 +85,13 @@ and an injective neural--Jacobian separation witness%
 \href{https://arxiv.org/abs/2606.10806}{arXiv:2606.10806}.}}
 \author{Logan M. Dixon\thanks{Independent Researcher. Email:
 \texttt{lmdixon23@gmail.com}. ORCID: 0009-0001-0592-462X.}}
-\date{July 2026}
+\date{September 2026}
 
 \begin{document}
 \maketitle
 
 \begin{abstract}
-For sigmoid ridge networks $F(x)=A\sigma(Bx+c)$, pointwise Jacobian positivity does not by itself determine global multiplicity.  We study an explicit $n=2$, $N=4$ network with $\det DF>0$ on $\R^2$ whose segment-averaged Jacobian has negative determinant at one pair and is singular at an intermediate pair, so the classical mean-value univalence certificate fails.  The same network is nevertheless a global diffeomorphism onto an explicit nonconvex octagon.  Two finite-dimensional geometries explain the separation.  In the interior, $\det DF$ is an indefinite quadratic form evaluated on the nonlinear derivative-weight image $\{\sigma'(Bx+c):x\in\R^2\}$; a convexity and optimally weighted AM--GM argument proves positivity there by one rigorously enclosed scalar inequality.  At infinity, the row arrangement of $B$ produces a signed-column polygon whose winding number determines the exact number of preimages.  A uniform large-circle approximation yields the formula $\#F^{-1}(y)=\operatorname{sgn}(\det DF)\,\wind(\gamma,y)$ off the boundary loop, and hence a necessary and sufficient planar injectivity criterion.  Exact sign-plus-magnitude polygon criteria and validated parameter certificates show that the witness mechanism persists on an explicit open neighborhood.  Thus averaged-Jacobian univalence is strictly stronger than actual injectivity, and the asymptotic winding supplies the decisive global certificate for this separation witness.
+For sigmoid ridge networks $F(x)=A\sigma(Bx+c)$, local Jacobian orientation and global multiplicity are governed by different finite-dimensional geometries.  We study an explicit $n=2$, $N=4$ network with $\det DF>0$ on $\R^2$ whose segment-averaged Jacobian has negative determinant at one pair and is singular at an intermediate pair, so the classical mean-value univalence certificate fails.  The same network is nevertheless a global diffeomorphism onto an explicit nonconvex octagon.  Two finite-dimensional geometries explain the separation.  In the interior, $\det DF$ is an indefinite quadratic form evaluated on the nonlinear derivative-weight image $\{\sigma'(Bx+c):x\in\R^2\}$; a convexity and optimally weighted AM--GM argument proves positivity there by one rigorously enclosed scalar inequality.  At infinity, the row arrangement of $B$ produces a signed-column polygon whose winding number determines the exact number of preimages.  A uniform large-circle approximation yields the formula $\#F^{-1}(y)=\operatorname{sgn}(\det DF)\,\wind(\gamma,y)$ off the boundary loop, and hence a necessary and sufficient planar injectivity criterion.  Exact sign-plus-magnitude polygon criteria and validated parameter certificates show that the witness mechanism persists on an explicit open neighborhood.  Thus averaged-Jacobian univalence is strictly stronger than actual injectivity, and the asymptotic winding supplies the decisive global certificate for this separation witness.
 \end{abstract}
 
 \medskip
@@ -102,7 +102,7 @@ For sigmoid ridge networks $F(x)=A\sigma(Bx+c)$, pointwise Jacobian positivity d
 
 % =====================================================================
 \section{Introduction}\label{sec:intro}
-Does an everywhere-nonsingular Jacobian force a smooth map to be globally injective? Chen and Jiang formulated this question for sigmoid ridge networks $F(x)=A\sigma(Bx+c)$ as the Neural Jacobian Conjecture~\cite{chen-jiang}.  It holds at hidden widths $N\in\{n,n+1\}$, where a classical mean-value (averaged-Jacobian) univalence argument~\cite{fmr} applies. The present paper studies the first higher width, $n=2$, $N=4$, but does not claim to settle the unrestricted conjecture at that width.
+Does an everywhere-nonsingular Jacobian force a smooth map to be globally injective? Chen and Jiang formulated this question for sigmoid ridge networks $F(x)=A\sigma(Bx+c)$ as the Neural Jacobian Conjecture~\cite{chen-jiang}.  It holds at hidden widths $N\in\{n,n+1\}$; Chen and Jiang report proofs for $N=n+1$~\cite{chen-jiang}, and \Cref{thm:closedwidths} gives a short graph-coordinate proof that also exposes a coordinate dependence hidden by the usual mean-value route. The present paper studies the first higher width, $n=2$, $N=4$, but does not claim to settle the unrestricted conjecture at that width.
 
 Classical global-inversion theory obtains one-to-one behavior from properness, covering-space continuation, or quantitative derivative conditions \cite{gutu-jaramillo,ruzhansky-sugimoto}; neural-network injectivity has also been studied for other activation and architecture classes, including sharp results for ReLU networks~\cite{puthawala}.  The bounded saturating ridge setting considered here has a different geometry because escape to infinity produces a finite boundary object rather than an unbounded or piecewise-linear range.
 
@@ -127,7 +127,7 @@ The injectivity proof does not rely on the averaged Jacobian.  It begins with a 
 
 The paper answers that question at three levels.  A complete orientation formula reduces simplicity, including degenerate cases, to finitely many polynomial sign and interval-order predicates (\Cref{thm:closed-form}).  In the sign-coherent regime, the mixed minors $\det(a_i,a_j)\det(b_i,b_j)$ have one sign exactly when the asymptotic polygon is strictly convex (\Cref{thm:mixed-convexity}).  Beyond that regime, magnitudes are indispensable: positive rescaling can preserve every determinant sign while changing a simple polygon into a self-intersecting one (\Cref{prop:sign-insufficient}).  A short magnitude-sensitive criterion then proves the witness octagon simple from four monotonicity signs and three prefix-side signs (\Cref{thm:one-sided,cor:witness-structural}); the twenty-pair exact segment test is retained only as a cross-check.
 
-These strict inequalities also show that polygon simplicity is stable under small perturbations. Combined with the analytic determinant theorem and the independent finite parameter certificates, this yields both a human-readable analytic class and a certified neighborhood of globally injective networks around the witness (\Cref{cor:analytic-class,thm:open-family}). The explicit certified boxes remain local in parameter space, while the analytic criterion itself defines a broader open subclass. The analytic and geometric hypotheses are sufficient conditions for this open subclass; no necessity claim for all four-ridge networks is made here.
+These strict inequalities also show that polygon simplicity is stable under small perturbations. Combined with the analytic determinant theorem and the separately implemented finite parameter certificates, this yields both a human-readable analytic class and a certified neighborhood of globally injective networks around the witness (\Cref{cor:analytic-class,thm:open-family}). The explicit certified boxes remain local in parameter space, while the analytic criterion itself defines a broader open subclass. The analytic and geometric hypotheses are sufficient conditions for this open subclass; no necessity claim for all four-ridge networks is made here.
 
 \Cref{sec:weights} develops the derivative-weight formulation and analytic positivity mechanism; \Cref{sec:theorem} proves the cluster-set inversion theorem; \Cref{sec:lemma} derives the asymptotic polygon; \Cref{sec:simplicity} develops the structural criteria needed for the witness; \Cref{sec:cert} applies them; and \Cref{sec:injectivity,sec:winding} establish global injectivity and the exact multiplicity formula. \Cref{sec:n4} records the remaining four-ridge boundary obstruction, while \Cref{sec:reconcile,sec:conclusion} synthesize the interior and boundary mechanisms. Complete all-cases polygon predicates and quantitative certificate details are collected in \Cref{app:polygon-criteria,app:det}.
 
@@ -160,11 +160,11 @@ For the canonical $n=2,N=4$ witness:
 \]
 \item there exists $t_*\in(0,1)$ such that $\det\overline{DF}(p,p+t_*(q-p))=0$.
 \end{enumerate}
-Thus pointwise Jacobian positivity does not imply the averaged-Jacobian nonsingularity hypothesis used by the standard mean-value univalence route.  By \Cref{cor:injective} the witness is nevertheless injective, so the criterion of \Cref{lem:mv} is strictly stronger than injectivity.  It is strictly stronger already at the closed width $N=n+1$ (\Cref{prop:coorddep}); what is specific to width $n+2$ is that the determinant ceases to be affine in a single varying slot, so no change of coordinate restores the commutation.
+Thus pointwise Jacobian positivity does not imply the averaged-Jacobian nonsingularity hypothesis used by the standard mean-value univalence route.  By \Cref{cor:injective} the witness is nevertheless injective, so the criterion of \Cref{lem:mv} is strictly stronger than injectivity.  It is strictly stronger already at the closed width $N=n+1$ (\Cref{prop:coorddep}); what is specific to width $n+2$ is that the determinant ceases to be affine in a single varying slot, so the graph-coordinate rank-one commutation used at width $n+1$ no longer applies.
 \end{theorem}
 
 \begin{proof}
-Part (i) is proved analytically for the witness by \Cref{prop:analytic-det}; the validated compact-plus-tail certificate (\Cref{app:det}) independently corroborates it and certifies the parameter boxes. For (ii), each diagonal divided difference is evaluated from the closed sigmoid formula and the resulting $2\times2$ determinant is enclosed with directed rounding. The global analytic proof, independently corroborated by the compact-plus-tail certificate, also establishes pointwise determinant positivity along the displayed segment. At the coincident endpoint, $\overline{DF}(p,p)=DF(p)$ has positive determinant; continuity of the averaged matrix in the endpoint and (ii) give (iii) by the intermediate value theorem.
+Part (i) is proved analytically for the witness by \Cref{prop:analytic-det}; the validated compact-plus-tail certificate (\Cref{app:det}) corroborates it through a separate interval implementation and certifies the parameter boxes. For (ii), each diagonal divided difference is evaluated from the closed sigmoid formula and the resulting $2\times2$ determinant is enclosed with directed rounding. The global analytic proof, separately corroborated by the compact-plus-tail certificate, also establishes pointwise determinant positivity along the displayed segment. At the coincident endpoint, $\overline{DF}(p,p)=DF(p)$ has positive determinant; continuity of the averaged matrix in the endpoint and (ii) give (iii) by the intermediate value theorem.
 \end{proof}
 
 \begin{remark}
@@ -295,20 +295,30 @@ the origin, and $\det DF\ge5\rho_0\rho_1>0$ everywhere.
 For the failure take $p=(-40,120)$ and $q=(40,-20)$.  The three divided
 differences are
 $\delta_i=\bigl(\sigma(t_i(q))-\sigma(t_i(p))\bigr)/\bigl(t_i(q)-t_i(p)\bigr)$
-with preactivation segments $[-40,40]$, $[120,-20]$ and $[24,6]$.  The first
-two straddle the origin and give $\delta_0=1/80$ and $\delta_1=1/140$ to
-within $e^{-20}$, while the third lies entirely on one side and is
-exponentially small, $\delta_2<\tfrac1{18}\bigl(1-\sigma(6)\bigr)$.  Hence
-$\det\overline{DF}(p,q)=-\delta_0\delta_1+3\delta_2(\delta_0+\delta_1)<0$;
-numerically it is $-8.1191\times10^{-5}$.  At the coincident pair
-$\overline{DF}(p,p)=DF(p)$ has positive determinant, and
+with preactivation segments $[-40,40]$, $[120,-20]$ and $[24,6]$.  Since
+$1-\sigma(t)=\sigma(-t)<e^{-t}<2^{-t}$ for $t>0$, and in particular
+$2^{-39}<10^{-3}$ and $2^{-20}+2^{-120}<10^{-3}$, one has
+\[
+ \delta_0>\frac{999}{80000},\qquad
+  \delta_1>\frac{999}{140000},\qquad
+  \delta_2<\frac1{1152},
+ \]
+while trivially $\delta_0<1/80$ and $\delta_1<1/140$.  Therefore
+\[
+\det\overline{DF}(p,q)
+ =-\delta_0\delta_1+3\delta_2(\delta_0+\delta_1)
+ <-\frac{998001}{11200000000}+\frac{11}{215040}
+ =-\frac{182179}{4800000000}<0.
+ \]
+(Direct evaluation gives approximately $-8.1191\times10^{-5}$.)  At the
+coincident pair $\overline{DF}(p,p)=DF(p)$ has positive determinant, and
 $\overline{DF}(p,p+s(q-p))$ is continuous in $s$, so some intermediate pair is
 singular.
 
 Finally the rows of $B$ are pairwise nonparallel, so \Cref{lem:polygon}
-applies.  The asymptotic polygon has the six distinct integer vertices
-$(0,0)$, $(0,1)$, $(1,0)$, $(1,1)$, $(-9,-9)$, $(-9,-10)$, $(-10,-9)$ arranged
-as a centrally symmetric hexagon with signed area $19$; exact integer
+applies.  In cyclic order the asymptotic polygon has the six distinct integer
+vertices $(-9,-9)$, $(-9,-10)$, $(1,0)$, $(0,0)$, $(0,1)$, $(-10,-9)$.
+They form a centrally symmetric hexagon with signed area $19$; exact integer
 orientation predicates show it is simple, and its winding spectrum is
 $\{0,1\}$.  \Cref{thm:main} gives that $F$ is a global diffeomorphism onto the
 bounded component, and \Cref{cor:iff} gives injectivity independently of
@@ -412,7 +422,7 @@ Let $F(x)=A\sigma(Bx+c)$ satisfy the hypotheses of \Cref{prop:analytic-det} and 
 \Cref{prop:analytic-det} gives $\det DF>0$ on $\R^2$, so $F$ is a local $C^1$ diffeomorphism, while $\sigma\in(0,1)^N$ makes it bounded. \Cref{lem:polygon} gives $\clinf(F)\subseteq\Gamma$; the assumed simplicity makes $\Gamma$ a Jordan curve, and \Cref{thm:main} applies.
 \end{proof}
 
-For the canonical witness, exact rational computation gives $r>0$.  The executable certificate uses the admissible rational weights $\mu=51/1000$, $\lambda=949/1000$ for reproducibility.  Since $G(\mu_*)\ge G(51/1000)$, the rational evaluation gives a rigorous lower bound for the optimized left side of \eqref{eq:analytic-dominance}: it exceeds $0.1290339743302$, while $|m_{23}|<0.1261291706757$.  The margin exceeds $0.0029048036545$. The validated spatial certificate in \Cref{app:det} is therefore independent corroboration for the central witness and remains load-bearing only for the explicit parameter boxes.
+For the canonical witness, exact rational computation gives $r>0$.  The executable certificate uses the admissible rational weights $\mu=51/1000$, $\lambda=949/1000$ for reproducibility.  Since $G(\mu_*)\ge G(51/1000)$, the rational evaluation gives a rigorous lower bound for the optimized left side of \eqref{eq:analytic-dominance}: it exceeds $0.1290339743302$, while $|m_{23}|<0.1261291706757$.  The margin exceeds $0.0029048036545$. The validated spatial certificate in \Cref{app:det} is therefore separate computational corroboration for the central witness and remains load-bearing only for the explicit parameter boxes.
 
 % =====================================================================
 \section{A planar Jordan cluster-set inversion theorem}\label{sec:theorem}
@@ -441,10 +451,6 @@ The proof (\Cref{app:proof}) runs in five steps.
 
 \begin{remark}[role of the hypotheses]\label{rmk:sharp}
 Boundedness cannot be dropped: the identity map $F(x)=x$ is a local diffeomorphism with $\clinf(F)=\varnothing\subseteq\Gamma$ for any Jordan curve $\Gamma$, yet it is not a homeomorphism onto a bounded component (it maps onto all of $\R^2$). This isolates boundedness, the one failing hypothesis. The containment $\clinf(F)\subseteq\Gamma$ cannot be dropped: a bounded infinite cover of an annulus is a non-injective bounded local diffeomorphism whose cluster set contains interior points. Simplicity of $\Gamma$ cannot be dropped: a self-intersecting limit curve has no well-defined bounded component and defeats Schoenflies.
-\end{remark}
-
-\begin{remark}[higher dimensions]\label{rmk:dimension}
-In $\R^n$ with $n\ge 3$ a Jordan curve no longer separates the space; the correct generalization replaces $\Gamma$ by a codimension-one \emph{bicollared} embedded $(n-1)$-sphere. Jordan--Brouwer separation then supplies the bounded component $D$, and the Brown--Schoenflies theorem gives $D$ homeomorphic to an open ball, hence simply connected. Assuming only that $D$ is simply connected, without the sphere separator, is not sufficient.
 \end{remark}
 
 % =====================================================================
@@ -676,7 +682,7 @@ The witness network $F(x)=A\sigma(Bx+c)$ of \Cref{thm:separation} is a global $C
 \end{corollary}
 
 \begin{proof}
-The map $F$ is bounded, since $\sigma$ takes values in $(0,1)^N$ and hence $F(\R^2)\subseteq A[0,1]^N$. It is a $C^1$ local diffeomorphism because $\det DF>0$ everywhere; for the witness this is proved analytically (\Cref{prop:analytic-det}) and independently corroborated by the validated interval certificate (\Cref{app:det}), computed directly from \texttt{data/witness.json}. By \Cref{lem:polygon}, the cluster set satisfies $\clinf(F)\subseteq\Gamma$, and by \Cref{prop:simple} the curve $\Gamma$ is a Jordan curve. \Cref{thm:main} applies.
+The map $F$ is bounded, since $\sigma$ takes values in $(0,1)^N$ and hence $F(\R^2)\subseteq A[0,1]^N$. It is a $C^1$ local diffeomorphism because $\det DF>0$ everywhere; for the witness this is proved analytically (\Cref{prop:analytic-det}) and separately corroborated by the validated interval certificate (\Cref{app:det}), computed directly from \texttt{data/witness.json}. By \Cref{lem:polygon}, the cluster set satisfies $\clinf(F)\subseteq\Gamma$, and by \Cref{prop:simple} the curve $\Gamma$ is a Jordan curve. \Cref{thm:main} applies.
 \end{proof}
 
 \begin{theorem}[an open family of globally injective networks]\label{thm:open-family}
@@ -804,11 +810,11 @@ Under the hypotheses of \Cref{thm:winding},
 The forward implication follows from \Cref{thm:winding}.  Conversely, the formula gives at most one preimage away from the polygonal loop.  If a point of the loop had two finite preimages, inverse-function neighborhoods of those preimages would share a common open image.  Since a polygonal loop has empty interior, that open set contains a nearby point off the loop with two preimages, a contradiction.
 \end{proof}
 
-Call the loop \emph{generic} if it has finitely many self-intersections, each a transverse crossing of two edge interiors with no three edges concurrent.  Let $w$ be the winding number of the region incident to such a crossing that is swept last in the cyclic order; crossing either strand changes the winding by $\pm1$, so the four local regions carry $w$, $w+a$, $w+b$ and $w+a+b$ for some $a,b\in\{\pm1\}$.  By \Cref{thm:winding} every signed winding value is a nonnegative integer.  If $a=b=-1$ then $w\ge2$; if $a$ and $b$ differ then $w\ge1$ and $w+a+b=w$, while the larger of $w+a,w+b$ is $w+1$, forcing the maximum to be at least $2$ unless $w=0$, in which case one region has winding $-1$, a contradiction; and if $a=b=+1$ then $w+a+b=w+2\ge2$.  In every case some local region has winding at least $2$. Hence, in the generic class, $F$ is injective if and only if its asymptotic polygon is simple.  The exact winding spectra are computed by \path{code/polygon_winding.py}: the witness octagon has spectrum $\{0,1\}$, and an exact self-intersecting centrally symmetric example has spectrum $\{0,1,2\}$ (\path{results/structural/winding_spectra.json}).
+Call the loop \emph{generic} if it has finitely many self-intersections, each a transverse crossing of two edge interiors with no three edges concurrent.  Put $m(y)=\varepsilon\wind(\gamma,y)$, the signed multiplicity from \Cref{thm:winding}; thus $m$ is a nonnegative integer on every complementary region.  Near a transverse crossing, crossing either strand changes $m$ by $\pm1$, so the four local regions carry $m$, $m+a$, $m+b$ and $m+a+b$ for some $a,b\in\{\pm1\}$.  If $a=b=-1$ then nonnegativity forces $m\ge2$; if $a$ and $b$ differ then nonnegativity forces $m\ge1$, and one of $m+a,m+b$ equals $m+1\ge2$; if $a=b=+1$ then $m+a+b=m+2\ge2$.  Thus every generic self-crossing creates a region of multiplicity at least two. Hence, in the generic class, $F$ is injective if and only if its asymptotic polygon is simple.  The exact signed-multiplicity spectra are computed by \path{code/polygon_winding.py}: the witness octagon has spectrum $\{0,1\}$, and an exact self-intersecting centrally symmetric example has spectrum $\{0,1,2\}$ (\path{results/structural/winding_spectra.json}).
 
 % =====================================================================
 \section{The remaining four-ridge boundary obstruction}\label{sec:n4}
-For $n=2$, $N=4$, the boundary loop is a centrally symmetric octagon. \Cref{cor:iff} makes its signed winding spectrum the exact multiplicity invariant. The witness studied here has spectrum $\{0,1\}$ and is injective. More generally, the degree--winding formula shows that a positive-Jacobian network would fail to be injective precisely when its asymptotic octagon has a region of winding at least two. Thus the unrestricted four-ridge question is reduced to compatibility between pointwise determinant positivity and such boundary winding.  A companion paper by the author resolves that compatibility question in the negative, by exhibiting an exact rational four-ridge network with everywhere-positive Jacobian determinant whose asymptotic octagon carries winding two; the present results are independent of that resolution.
+For $n=2$, $N=4$, the boundary loop is a centrally symmetric octagon. \Cref{cor:iff} makes its signed winding spectrum the exact multiplicity invariant. The witness studied here has spectrum $\{0,1\}$ and is injective. More generally, the degree--winding formula shows that a positive-Jacobian network would fail to be injective precisely when its asymptotic octagon has a region of winding at least two. Thus the unrestricted four-ridge question is reduced to compatibility between pointwise determinant positivity and such boundary winding.  That compatibility question lies outside the scope of the present paper; none of the results proved here depends on its resolution.
 
 Central symmetry by itself does not control the spectrum.  For comparison, the exact loop with first-half edges
 \[
@@ -826,7 +832,7 @@ The theorem package has several layers of different novelty.  The covering-space
 
 The paper's substantive contribution is their assembly for bounded ridge maps and the geometry exposed by that assembly.  In particular, \Cref{thm:mixed-convexity} turns the sign-coherent maximal-minor regime studied in \cite{mhr,fmr} into a concrete boundary statement: it is exactly the regime in which the asymptotic polygon is strictly convex.  The witness lies immediately outside that regime, and \Cref{prop:sign-insufficient,thm:one-sided,thm:graph-gap} show why a magnitude-sensitive refinement is required and how one can certify it. The analytic class in \Cref{cor:analytic-class} is independent of the spatial branch-and-bound, while the explicit quantitative boxes in \Cref{thm:open-family,cor:family-radius} use the strict validated determinant certificate. Together they are stronger than a single computer-checked example.
 
-The adjacent neural-injectivity literature includes global characterizations for ReLU networks and related injective architectures~\cite{puthawala}.  Sign-vector and maximal-minor criteria for generalized polynomial and monotone map families are developed in~\cite{muller-sign,mhr,fmr}, while classical zonotope theory explains why angularly ordered generators bound a convex zonogon~\cite{ziegler}. Those sources cover the convex/sign-coherent side of the picture.  The targeted search for this revision located no prior result that (a) identifies a bounded saturating ridge map's full cluster boundary with a row-ordered signed-column polygon, (b) separates mixed-minor convexity from magnitude-sensitive simplicity, and (c) combines that geometry with a quantitative global-injectivity neighborhood.  This supports novelty of the package, not absolute priority; the individual segment predicates, covering-space facts, and zonogon boundary order remain classical ingredients.
+The adjacent neural-injectivity literature includes global characterizations for ReLU networks and related injective architectures~\cite{puthawala}.  Sign-vector and maximal-minor criteria for generalized polynomial and monotone map families are developed in~\cite{muller-sign,mhr,fmr}, while classical zonotope theory explains why angularly ordered generators bound a convex zonogon~\cite{ziegler}. Those sources cover the convex/sign-coherent side of the picture.  A targeted literature search for this revision located no prior result that (a) identifies a bounded saturating ridge map's cluster set at infinity exactly with its row-ordered signed-column polygonal loop, (b) separates mixed-minor convexity from magnitude-sensitive simplicity, and (c) combines that geometry with a quantitative global-injectivity neighborhood.  This supports novelty of the package, not absolute priority; the individual segment predicates, covering-space facts, and zonogon boundary order remain classical ingredients.
 
 The degree--winding result adds a different layer: after a uniform reparameterization of large circles, the asymptotic loop becomes a complete multiplicity invariant off its image, not merely a sufficient Jordan-boundary certificate.  The derivative-weight formulation likewise isolates the precise convexification gap behind the separation: $Q_M$ is positive on the nonlinear weight image but negative at a path barycenter.  These two statements---exact boundary multiplicity and interior weight convexification---are the principal conceptual advances of the unified manuscript.
 
@@ -870,18 +876,18 @@ For the canonical network these pieces close the full separation story: the Jaco
 configuration files, certificate and replay scripts, and machine-readable
 reports are archived at
 \href{https://github.com/lmdixon23/njc-2026-cluster-inversion}{github.com/lmdixon23/njc-2026-cluster-inversion},
-release tag \texttt{v1.1.0}. The public claim map and verification guide are
+release tag \texttt{v1.2.0}. The public claim map and verification guide are
 \path{verification/CLAIM-TO-ARTIFACT-MAP.md} and
 \path{verification/README.md}.
 
 \paragraph{Claim-to-artifact map.} \Cref{tab:artifacts} maps each load-bearing
-claim to its primary evidence and its independent check or failure condition.
+claim to its primary evidence and its separate check or failure condition.
 
 \begin{table}[H]
 \centering\small
 \begin{tabular}{@{}>{\raggedright\arraybackslash}p{0.29\textwidth}>{\raggedright\arraybackslash}p{0.25\textwidth}>{\raggedright\arraybackslash}p{0.36\textwidth}@{}}
 \toprule
-Claim & Primary evidence & Independent check or failure condition\\
+Claim & Primary evidence & Separate check or failure condition\\
 \midrule
 Cluster-boundary inversion & Proof of \Cref{thm:main} & Direct check of every topological hypothesis\\
 Asymptotic polygon and classification &
@@ -896,7 +902,7 @@ Interval certificate: 93,000 leaves &
 Exact tiling replay; Decimal diagnostic; complete Arb leaf replay\\
 Degree--winding formula &
 Uniform boundary-loop lemma and Brouwer degree &
-Independent proof checks; three exact-arithmetic spectrum implementations\\
+Separate proof reconstruction; three exact-arithmetic spectrum implementations\\
 Separation from averaged Jacobian &
 Validated interval certificate, \path{code/certify_avgdet_neg.py} &
 Closed-form high-precision recomputation and IVT argument\\
@@ -919,10 +925,10 @@ Using \path{config/witness_anisotropic.json} instead selects the larger
 anisotropic box. Compact leaves are exported as binary split paths.
 The Decimal replay reconstructs them from the root and proves prefix-freeness
 and exact dyadic volume closure; its determinant reevaluation is a
-corroborating numerical diagnostic. Independently, the Arb compact replay
+corroborating numerical diagnostic. Separately, the Arb compact replay
 reconstructs and rigorously rescores every exported leaf using ball arithmetic,
 and the Arb tail replay rescores all $200{,}000$ fixed-radius angular directions.
-The independent tail-transfer checker separately rederives the minor and
+A separate tail-transfer checker rederives the minor and
 logarithmic loss bounds. Each combined parameter report
 embeds the SHA-256 and byte count of every subreport it summarizes; the verifier
 recomputes the semantic verdicts, checks the exact expected component set, and
@@ -930,11 +936,11 @@ rejects stale or mismatched configuration, witness, report, and leaf bindings.
 
 \paragraph{Analytic and degree checks.} \texttt{bash code/run\_structural\_checks.sh} runs the scalar analytic-determinant certificate, the exact winding-spectrum computation, and the four-ridge winding-two probe, each fail-closed (\Cref{sec:weights,sec:winding,sec:n4}). The witness spectrum $\{0,1\}$ was confirmed by three exact-arithmetic implementations, including a separate SymPy kernel.
 
-\paragraph{Quantitative records.} For the common cube the interval workflow processed $185{,}999$ boxes and certified $93{,}000$ terminal leaves; the independent replay checked all $93{,}000$, with minimum replayed lower endpoint approximately $2.04\times10^{-248}$.  For the anisotropic box the workflow processed $193{,}033$ boxes and certified $96{,}517$ leaves; the replay checked all leaves and exact volume closure.  The point-tail grid was recomputed in this package and has rigorous recorded margin $0.0273200022\ldots$, justifying the conservative base value $0.0273$.
+\paragraph{Quantitative records.} For the common cube the interval workflow processed $185{,}999$ boxes and certified $93{,}000$ terminal leaves; the separate Arb replay checked all $93{,}000$, with minimum replayed lower endpoint approximately $2.04\times10^{-248}$.  For the anisotropic box the workflow processed $193{,}033$ boxes and certified $96{,}517$ leaves; the replay checked all leaves and exact volume closure.  The point-tail grid was recomputed in this package and has rigorous recorded margin $0.0273200022\ldots$, justifying the conservative base value $0.0273$.
 
 \paragraph{Falsification criteria.} The geometry checker rejects row dependence, repeated vertices, zero edges, adjacent overlap, or any nonadjacent intersection.  Parameter certificates reject ambiguous minor signs, any compact leaf whose determinant lower endpoint is not strictly positive, incomplete partition volume, a non-prefix-free path set, or a nonpositive tail residual. The package verifier also rejects missing expected reports or content-hash mismatches.
 
-\paragraph{Limitations.} The exact simplicity formula is semialgebraic rather than sign-only; \Cref{prop:sign-insufficient} proves that sign-only data cannot suffice outside the convex regime. The radii are conservative inner bounds and are not maximal. The generating compact certificates use \texttt{mpmath.iv} 1.3.0, whose \href{https://mpmath.org/doc/current/contexts.html}{official documentation} states interval-containment semantics while designating the interval subsystem experimental. The public Arb implementation therefore reconstructs and rigorously rescores every exported leaf; the separate Decimal layer is retained for partition reconstruction and diagnostic rescoring. The polygon method is planar and assumes bounded saturating activations with a nondegenerate row arrangement. The degree argument assumes a continuous strictly increasing saturating activation and pairwise nonparallel rows; the equivalence between injectivity and polygon simplicity is stated only in generic transverse position. The degree--winding chain has been independently reconstructed, and the witness spectrum has been checked in three exact-arithmetic kernels. These verification records do not substitute for journal peer review.
+\paragraph{Limitations.} The exact simplicity formula is semialgebraic rather than sign-only; \Cref{prop:sign-insufficient} proves that sign-only data cannot suffice outside the convex regime. The radii are conservative inner bounds and are not maximal. The generating compact certificates use \texttt{mpmath.iv} 1.3.0, whose \href{https://mpmath.org/doc/current/contexts.html}{official documentation} states interval-containment semantics while designating the interval subsystem experimental. The public Arb implementation therefore reconstructs and rigorously rescores every exported leaf; the separate Decimal layer is retained for partition reconstruction and diagnostic rescoring. The polygon method is planar and assumes bounded saturating activations with a nondegenerate row arrangement. The degree argument assumes a continuous strictly increasing saturating activation and pairwise nonparallel rows; the equivalence between injectivity and polygon simplicity is stated only in generic transverse position. The degree--winding chain has been separately reconstructed, and the witness spectrum has been checked in three exact-arithmetic kernels. These verification records do not substitute for journal peer review.
 
 % =====================================================================
 \section*{Declarations}
@@ -943,9 +949,9 @@ rejects stale or mismatched configuration, witness, report, and leaf bindings.
 \paragraph{Data and code availability.} Code, data, certificates, and
 verification materials are available at
 \href{https://github.com/lmdixon23/njc-2026-cluster-inversion}{github.com/lmdixon23/njc-2026-cluster-inversion},
-release tag \texttt{v1.1.0}. The repository contains the exact witness,
+release tag \texttt{v1.2.0}. The repository contains the exact witness,
 scripts, configuration files, and machine-readable results used in the paper.
-\paragraph{AI assistance.} Text-to-text generative AI tools, including Claude and GPT, assisted with candidate exploration, code drafting and review, adversarial checking, and editorial revision. Any AI-assisted mathematical claim, source attribution, code fragment, constant, or numerical output retained in the work was checked independently of the AI response through hand derivation, source verification, exact recomputation, or validated numerical computation as appropriate. The author determined the research direction and acceptance criteria and assumes full responsibility for the work.
+\paragraph{AI assistance.} Text-to-text generative AI tools, including Claude and GPT, assisted with candidate exploration, code drafting and review, adversarial checking, and editorial revision. Any AI-assisted mathematical claim, source attribution, code fragment, constant, or numerical output retained in the work was checked separately from the originating AI response through hand derivation, source verification, exact recomputation, or validated numerical computation as appropriate. The author determined the research direction and acceptance criteria and assumes full responsibility for the work.
 
 % =====================================================================
 \appendix
@@ -1077,7 +1083,7 @@ The same conclusion holds throughout the entrywise box
 \end{corollary}
 
 \begin{proof}
-The exact geometry bounds absorb the stated $A$ and $B$ perturbations. The compact parameter cover has $96{,}517$ terminal leaves. The \path{mpmath.iv} interval workflow generates the cover, a separate Arb implementation rigorously rescores every leaf, and a custom Decimal implementation independently reconstructs the prefix-free partition, verifies exact volume closure, and diagnostically rescores every leaf. The tail transfer retains a lower margin exceeding $0.00415$, independently recomputed in Decimal arithmetic. Apply \Cref{thm:radius-procedure}.
+The exact geometry bounds absorb the stated $A$ and $B$ perturbations. The compact parameter cover has $96{,}517$ terminal leaves. The \path{mpmath.iv} interval workflow generates the cover, a separate Arb implementation rigorously rescores every leaf, and a custom Decimal implementation separately reconstructs the prefix-free partition, verifies exact volume closure, and diagnostically rescores every leaf. The tail transfer retains a lower margin exceeding $0.00415$, recomputed in a separate Decimal implementation. Apply \Cref{thm:radius-procedure}.
 \end{proof}
 
 \begin{remark}[quantitative certificate]
@@ -1108,7 +1114,7 @@ forces more subdivision. The run has two parts.
 For the witness the fixed-radius test certifies $R_0=582$ (worst-direction margin $\approx 2.7\times10^{-2}$), and the interior branch-and-bound on $[-582,582]^2$ processes $185{,}999$ boxes and certifies all $93{,}000$ terminal boxes, with none left uncertified at the resolution floor and no budget exhaustion, in a few minutes on typical current hardware; hence $\det DF(x)>0$ for all $x\in\R^2$. A self-test validates the $\sigma'$ enclosures against a reference, confirms the exact minor products and their single negative sign, checks that the interval determinant encloses the true value at a sample point, plants an inflated negative term that the checker must refuse, and confirms that the tail certifier rejects a too-small radius.
 
 \begin{remark}[relation between the two positivity proofs]\label{rmk:companion-det}
-The analytic argument in \Cref{prop:analytic-det} is the primary proof of $\det DF>0$ for the witness.  The present interval certificate rederives the same conclusion from the exact rational entries of \texttt{witness.json} using a spatial compact--tail decomposition.  It provides independent computational corroboration for the witness and carries the explicit parameter boxes in \Cref{cor:family-radius,cor:anisotropic}.
+The analytic argument in \Cref{prop:analytic-det} is the primary proof of $\det DF>0$ for the witness.  The present interval certificate rederives the same conclusion from the exact rational entries of \texttt{witness.json} using a spatial compact--tail decomposition.  It provides separate computational corroboration for the witness and carries the explicit parameter boxes in \Cref{cor:family-radius,cor:anisotropic}.
 \end{remark}
 
 % =====================================================================
@@ -1121,8 +1127,8 @@ The analytic argument in \Cref{prop:analytic-det} is the primary proof of $\det 
 \bibitem{mhr} S.~M\"uller, J.~Hofbauer, and G.~Regensburger, \emph{On the bijectivity of families of exponential/generalized polynomial maps}, SIAM J.\ Appl.\ Algebra Geom.\ \textbf{3} (2019), no.~3, 412--438; \href{https://arxiv.org/abs/1804.01851}{arXiv:1804.01851}.
 \bibitem{fmr} E.~Feliu, S.~M\"uller, and G.~Regensburger, \emph{Characterizing injectivity of classes of maps via classes of matrices}, Linear Algebra Appl.\ \textbf{580} (2019), 236--261; \href{https://arxiv.org/abs/1901.11272}{arXiv:1901.11272}.
 \bibitem{gutu-jaramillo} O.~Gut\'u and J.~A.~Jaramillo, \emph{Global homeomorphism and covering projections on metric spaces}, \href{https://arxiv.org/abs/math/0606569}{arXiv:math/0606569}, 2006.
-\bibitem{ruzhansky-sugimoto} M.~Ruzhansky and M.~Sugimoto, \emph{On Hadamard's global inverse function theorem}, \href{https://arxiv.org/abs/1305.5930}{arXiv:1305.5930}, 2013.
-\bibitem{puthawala} M.~Puthawala, K.~Kothari, M.~Lassas, I.~Dokmani\'c, and M.~de~Hoop, \emph{Globally injective ReLU networks}, \href{https://arxiv.org/abs/2006.08464}{arXiv:2006.08464}, 2020.
+\bibitem{ruzhansky-sugimoto} M.~Ruzhansky and M.~Sugimoto, \emph{On global inversion of homogeneous maps}, Bull. Math. Sci. \textbf{5} (2015), 13--18; \href{https://doi.org/10.1007/s13373-014-0059-1}{doi:10.1007/s13373-014-0059-1}.
+\bibitem{puthawala} M.~Puthawala, K.~Kothari, M.~Lassas, I.~Dokmani\'c, and M.~de~Hoop, \emph{Globally injective ReLU networks}, J. Mach. Learn. Res. \textbf{23} (2022), no.~105, 1--55; \href{https://www.jmlr.org/papers/v23/21-0282.html}{JMLR 23(105)}.
 \bibitem{deberg} M.~de~Berg, O.~Cheong, M.~van~Kreveld, and M.~Overmars, \emph{Computational Geometry: Algorithms and Applications}, 3rd ed., Springer, 2008.
 \bibitem{ho} C.-W.~Ho, \emph{A note on proper maps}, Proc.\ Amer.\ Math.\ Soc.\ \textbf{51} (1975), no.~1, 237--241.
 \bibitem{thomassen} C.~Thomassen, \emph{The Jordan--Sch\"onflies theorem and the classification of surfaces}, Amer.\ Math.\ Monthly \textbf{99} (1992), no.~2, 116--130.

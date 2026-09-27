@@ -21,6 +21,7 @@ def main():
     run('verify_witness_polygon.py','--json-out','results/verification_report.json')
     run('verify_sign_only_counterexample.py')
     run('verify_comparison_examples.py')
+    run('verify_closed_width_example.py')
     try:
         validate_combined(ROOT/'results'/'witness_common_5e-6', ROOT/'config'/'witness_common.json')
         validate_combined(ROOT/'results'/'witness_anisotropic', ROOT/'config'/'witness_anisotropic.json')

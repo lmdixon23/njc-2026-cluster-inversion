@@ -1,7 +1,9 @@
-# Independent reconstruction checks
+# Separate reconstruction checks
 
-The following scripts use implementations separate from the main certificate
+The following scripts use implementations methodologically separate from the main certificate
 paths:
+
+All of these are internal checks. Their methodological separation concerns code path, arithmetic, or proof reconstruction; it does not mean external human review. Legacy filenames containing `independent` use that word only in the implementation-separation sense.
 
 ```bash
 python code/check_analytic_det.py

@@ -31,13 +31,13 @@ printf '%s\n' '== Exact geometry and theorem package =='
 printf '%s\n' '== Analytic, winding, and chamber package =='
 "$PY" code/verify_structural_package.py
 
-printf '%s\n' '== Independent analytic determinant reconstruction =='
+printf '%s\n' '== Separate internal analytic determinant reconstruction =='
 "$PY" code/check_analytic_det.py
 
-printf '%s\n' '== Independent witness reconstruction =='
+printf '%s\n' '== Separate internal witness reconstruction =='
 "$PY" code/check_witness_core.py
 
-printf '%s\n' '== Independent exact polygon reconstruction =='
+printf '%s\n' '== Separate internal exact polygon reconstruction =='
 "$PY" code/polygon_indep.py
 
 printf '%s\n' '== Final canonical-file integrity =='

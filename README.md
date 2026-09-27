@@ -18,7 +18,7 @@ The manuscript develops a global-inversion theorem for planar saturating ridge n
 - `data/` and `config/` contain the exact witness and certificate inputs.
 - `code/` contains maintained certificate, reconstruction, and figure scripts.
 - `results/` contains the machine readable reports used by the manuscript.
-- `verification/` maps claims to artifacts and documents the independent checks.
+- `verification/` maps claims to artifacts and documents the separate reconstruction checks.
 - `BLIND_CHECK.md` documents the separate reconstruction checks.
 
 Local notes, exploratory work, build products, and superseded outputs belong in
@@ -41,12 +41,12 @@ VERDICT: ALL MAINTAINED CHECKS PASSED
 
 The gate verifies complete repository integrity, exact witness and polygon
 geometry, semantic consistency of every proof report and aggregate, the
-structural analytic and winding package, independent Arb evidence, and focused
+structural analytic and winding package, separately implemented Arb evidence, and focused
 negative regressions for the previously identified false PASS paths.
 
 ## Related research
 
-The separate [planar four-ridge counterexample repository](https://github.com/lmdixon23/njc-2026-planar-n4-winding) gives the exact positive-Jacobian noninjective counterexample at the next hidden width and the resulting sharp hidden-width threshold.
+The separate [planar four-ridge repository](https://github.com/lmdixon23/njc-2026-planar-n4-winding) studies the positive-Jacobian noninjectivity problem at the next hidden width and the associated sharp-threshold question. No result in the present manuscript depends on that repository.
 
 ## Author
 
@@ -57,7 +57,7 @@ Logan M. Dixon · [research site](https://lmdixon23.github.io/) · [ORCID](https
 From the repository root:
 
 ```bash
-python -m pip install -r requirements.txt
+python -m pip install -r requirements-lock.txt
 pdflatex -interaction=nonstopmode -halt-on-error -output-directory=paper paper/main.tex
 pdflatex -interaction=nonstopmode -halt-on-error -output-directory=paper paper/main.tex
 pdflatex -interaction=nonstopmode -halt-on-error -output-directory=paper paper/main.tex

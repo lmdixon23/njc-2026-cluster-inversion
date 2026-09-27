@@ -4,9 +4,9 @@ certify_det_exact.py -- RIGOROUS (validated-interval) certificate that
 det DF(x) > 0 for all x in R^2, for F(x)=A*sigma(Bx+c), read DIRECTLY from the
 frozen data/witness.json.
 
-WHY: the companion paper's certificate establishes det DF>0 but is IEEE-double
-("rigorous modulo rounding"), reads an untracked pickle (not the sha'd
-witness.json), computes no sha, and does not fail-exit on unresolved boxes.
+WHY: an earlier prototype certificate established det DF>0 using IEEE-double
+("rigorous modulo rounding"), read an untracked pickle (not the sha'd
+witness.json), computed no sha, and did not fail-exit on unresolved boxes.
 This module removes those gaps for the injectivity corollary:
   * inputs are the exact rationals of witness.json (no pickle, no binary-float
     contamination of A,B,c or the minor products);
@@ -14,7 +14,7 @@ This module removes those gaps for the injectivity corollary:
   * det DF over a box is enclosed by an interval; a box is certified only if the
     LOWER end of that interval is > 0;
   * the tail lemma (domination outside radius R0) is reproduced with a rigorous
-    outward psi<0 test + Lipschitz slack (same math as the companion certificate);
+    outward psi<0 test + Lipschitz slack (same analytic domination mechanism as the earlier prototype);
   * ANY unresolved box (below HMIN) or budget exhaustion => print FAIL, exit 1.
 
 Structure of det DF (Cauchy-Binet):
@@ -175,7 +175,7 @@ def tail_certify_fixed_R(R, B, c, m, pos, neg, Mgrid=200000, verbose=False):
 
     This REPLACES an earlier flawed step that took sup_theta min_J K_J/g_J and then
     inflated it by min_theta max_J g_J -- combining the ratio-minimizing pair with a
-    gap that need not belong to it (independent review, grid index 37576).
+    gap that need not belong to it (separate internal reconstruction, grid index 37576).
     """
     In, rho, KJ, LJ = _tail_setup(B, c, m, pos, neg)
     half_arc = mp.pi / Mgrid * (1 + mp.mpf(2)**(-30))    # scalar upper bound on dtheta/2

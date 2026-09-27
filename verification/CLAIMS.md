@@ -11,7 +11,7 @@
 | C7 | The canonical witness is a global diffeomorphism onto the octagon interior | Proved | Claims C2 through C6 |
 | C8 | Degree equals winding away from the boundary loop | Proved | Uniform large circle approximation and Brouwer degree |
 | C9 | The strict hypotheses define an open injective family | Proved | Stability argument |
-| C10 | The common and anisotropic parameter boxes satisfy the stated bounds | Certified | Generating interval partitions, exact volume replay, complete independent Arb leaf replay, and tail bounds |
+| C10 | The common and anisotropic parameter boxes satisfy the stated bounds | Certified | Generating interval partitions, exact volume replay, complete separately implemented Arb leaf replay, and tail bounds |
 
 The exact artifact locations and failure conditions are listed in
 `CLAIM-TO-ARTIFACT-MAP.md`.

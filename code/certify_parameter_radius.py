@@ -20,6 +20,7 @@ from fractions import Fraction as F
 from pathlib import Path
 import mpmath
 from mpmath import iv, mp
+from report_validation import validate_planar_four, require
 
 
 
@@ -43,14 +44,12 @@ def load_witness(path: Path):
     A = [[F(v) for v in row] for row in data['A']]
     B = [[F(v) for v in row] for row in data['B']]
     c = [F(v) for v in data['c']]
+    validate_planar_four(A, B, c)
     return A, B, c, hashlib.sha256(raw).hexdigest()
 
 
 def q_to_iv(q: F):
-    approx = mp.mpf(q.numerator) / mp.mpf(q.denominator)
-    ulp = mp.mpf(2) ** (1-mp.prec)
-    pad = abs(approx)*ulp*8 + mp.mpf(2)**(4-mp.prec)
-    return iv.mpf([approx-pad, approx+pad])
+    return iv.mpf(q.numerator) / iv.mpf(q.denominator)
 
 
 def decimal_radius(text: str) -> F:
@@ -83,7 +82,7 @@ def path_box_exact(path: str, R: F):
 
 
 def exact_partition(paths: list[str]) -> bool:
-    if not paths:
+    if not paths or any(not isinstance(p, str) or set(p)-{'0','1'} for p in paths):
         return False
     ordered=sorted(paths)
     if len(set(ordered))!=len(ordered):
@@ -124,8 +123,10 @@ def sigma_prime_iv(T):
 
 
 def parameter_intervals(A,B,c,deltaA,deltaB=None,deltaC=None):
+    validate_planar_four(A, B, c)
     deltaB = deltaA if deltaB is None else deltaB
     deltaC = deltaA if deltaC is None else deltaC
+    require(all(F(d) >= 0 for d in (deltaA, deltaB, deltaC)), 'parameter radii must be nonnegative')
     AI = [[box_q(v,deltaA) for v in row] for row in A]
     BI = [[box_q(v,deltaB) for v in row] for row in B]
     cI = [box_q(v,deltaC) for v in c]
@@ -133,6 +134,7 @@ def parameter_intervals(A,B,c,deltaA,deltaB=None,deltaC=None):
 
 
 def minor_products_iv(AI,BI):
+    validate_planar_four(AI, BI)
     out={}
     for i,j in itertools.combinations(range(4),2):
         dA=AI[0][i]*AI[1][j]-AI[0][j]*AI[1][i]
@@ -182,6 +184,8 @@ def tail_setup(BI,cI,mI,pos,neg):
 
 
 def tail_certify(R,BI,cI,mI,pos,neg,Mgrid=200000,early=True,state_file='',chunk_seconds=0):
+    require(type(R) is int and R > 0 and type(Mgrid) is int and Mgrid > 0, 'R and grid must be positive integers')
+    require(len(BI) == len(cI) == 4, 'tail certificate requires four ridges')
     if state_file and Path(state_file).exists():
         raise ValueError('tail resume files are disabled for this release; rerun the tail from direction zero')
     if state_file and chunk_seconds:
@@ -210,6 +214,8 @@ def tail_certify(R,BI,cI,mI,pos,neg,Mgrid=200000,early=True,state_file='',chunk_
 
 
 def interior_certify(R,BI,cI,mI,hmin=F('0.008'),budget=40_000_000,progress=0,leaf_out='',state_file='',chunk_seconds=0,state_context=None):
+    require(F(R) > 0 and F(hmin) > 0 and type(budget) is int and budget > 0, 'invalid compact domain or budget')
+    require(len(BI) == len(cI) == 4, 'compact certificate requires four ridges')
     Rf=F(R)
     root=(-Rf,-Rf,Rf,Rf)
     stack=[(root,'')]; processed=certified=0; fails=[]; worst=mp.inf; leaves=[]
@@ -230,7 +236,13 @@ def interior_certify(R,BI,cI,mI,hmin=F('0.008'),budget=40_000_000,progress=0,lea
         frontier=leaves+[path for _,path in stack]
         if certified!=len(leaves) or processed!=2*certified+len(stack)-1 or not exact_partition(frontier):
             raise ValueError('interior state does not prove exact prefix-free coverage of the root')
-        worst=mp.mpf(st.get('worst','+inf'))
+        # A context hash and a complete partition do not prove the stored leaves.
+        # Rescore them under this run's exact inputs before trusting a resume.
+        for path in leaves:
+            ok, lo = det_lower_positive(path_box_exact(path, Rf), BI, cI, mI)
+            if not ok:
+                raise ValueError('resumed certified leaf failed arithmetic replay: ' + path)
+            worst = min(worst, lo)
     t0=time.time()
     while stack and processed<budget:
         box,path=stack.pop(); processed+=1
@@ -278,7 +290,14 @@ def interior_certify(R,BI,cI,mI,hmin=F('0.008'),budget=40_000_000,progress=0,lea
 
 
 def certify(delta_text,witness,R,grid,hmin,budget,progress,skip_tail=False,skip_interior=False,leaf_out='',state_file='',chunk_seconds=0,delta_a_text='',delta_b_text='',delta_c_text='',tail_state_file='',tail_chunk_seconds=0,dps=40):
+    require(not (skip_tail and skip_interior), 'cannot skip both certificate domains')
+    require(type(R) is int and R > 0 and type(grid) is int and grid > 0, 'R and grid must be positive integers')
+    require(type(dps) is int and dps >= 30, 'precision must be at least 30 decimal digits')
+    require(F(hmin) > 0 and type(budget) is int and budget > 0, 'invalid resolution or budget')
+    require(math.isfinite(chunk_seconds) and chunk_seconds >= 0 and math.isfinite(tail_chunk_seconds) and tail_chunk_seconds >= 0, 'invalid chunk duration')
+    mp.dps = iv.dps = dps
     delta=decimal_radius(delta_text)
+    require(delta >= 0, 'parameter radius must be nonnegative')
     deltaA=decimal_radius(delta_a_text) if delta_a_text else delta
     deltaB=decimal_radius(delta_b_text) if delta_b_text else delta
     deltaC=decimal_radius(delta_c_text) if delta_c_text else delta
@@ -287,6 +306,7 @@ def certify(delta_text,witness,R,grid,hmin,budget,progress,skip_tail=False,skip_
     mI=minor_products_iv(AI,BI)
     pos,neg,amb=sign_structure(mI)
     result={'delta':delta_text,'delta_A':str(deltaA),'delta_B':str(deltaB),'delta_c':str(deltaC),'witness_sha256':sha,'R':R,'grid':grid,'hmin':str(hmin)}
+    result['scope'] = 'compact-only' if skip_tail else 'tail-only' if skip_interior else 'compact-and-tail'
     result['minor_intervals']={str(k):[str(v.a),str(v.b)] for k,v in mI.items()}
     result['minor_signs']={'positive':pos,'negative':neg,'ambiguous':amb}
     if amb or neg!=[(2,3)] or len(pos)!=5:

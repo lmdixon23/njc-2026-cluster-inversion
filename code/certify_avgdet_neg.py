@@ -30,6 +30,7 @@ import hashlib, itertools, json, os, sys
 from decimal import Decimal
 from fractions import Fraction as Fr
 from mpmath import iv, mp
+from report_validation import validate_planar_four
 
 
 def q_to_iv(q: Fr):
@@ -68,6 +69,9 @@ def main():
     c = [Fr(v) for v in data["c"]]                      # 4
     p = [Fr(v) for v in data["witness_pair"]["p"]]      # 2
     q = [Fr(v) for v in data["witness_pair"]["q"]]      # 2
+    validate_planar_four(A, B, c)
+    if len(p) != 2 or len(q) != 2:
+        raise ValueError('segment endpoints must be planar')
     print(f"witness.json sha256 = {sha}")
 
     # exact affine data of the segment:  z_i(t) = beta_i + alpha_i t

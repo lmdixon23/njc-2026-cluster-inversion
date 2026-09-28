@@ -40,7 +40,9 @@ def det_at_origin(data: dict):
 
 
 def main() -> int:
-    with tempfile.TemporaryDirectory(prefix="njc-fail-closed-") as temporary:
+    scratch = ROOT / '_local'
+    scratch.mkdir(exist_ok=True)
+    with tempfile.TemporaryDirectory(prefix="njc-fail-closed-", dir=scratch) as temporary:
         temp = Path(temporary)
 
         witness = json.loads((ROOT / "data" / "witness.json").read_text(encoding="utf-8"))

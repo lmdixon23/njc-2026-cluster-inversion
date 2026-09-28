@@ -13,6 +13,7 @@ from decimal import Decimal
 from pathlib import Path
 from independent_parameter_checker import load,params,minors,det_interval
 from decimal_interval import D
+from report_validation import file_sha256, validate_leaf_paths, validate_planar_four, require
 
 _DATA=None; _M=None; _B=None; _C=None; _R=None
 
@@ -73,6 +74,10 @@ def main():
     ap.add_argument('--chunksize',type=int,default=256); ap.add_argument('--json-out',default='')
     a=ap.parse_args(); d=a.delta; da=a.delta_a or d; db=a.delta_b or d; dc=a.delta_c or d
     rec=json.load(open(a.paths)); paths=rec['paths']; R=int(rec['R'])
+    require(R > 0 and a.workers > 0 and a.chunksize > 0, 'invalid compact replay controls')
+    validate_leaf_paths(rec,R)
+    inputs=load(Path(a.witness)); validate_planar_four(inputs['A'],inputs['B'],inputs['c'])
+    require(all(D(radius).is_finite() and D(radius)>=0 for radius in (da,db,dc)), 'invalid parameter radius')
     pf=prefix_free(paths); vol_ok,vol=exact_volume(paths,R)
     t=time.time(); bad=[]; minlo=None; checked=0
     with mp.Pool(a.workers,initializer=init_worker,initargs=(a.witness,da,db,dc,R)) as pool:
@@ -80,6 +85,8 @@ def main():
             checked+=1; dlo=Decimal(lo); minlo=dlo if minlo is None else min(minlo,dlo)
             if not ok and len(bad)<10: bad.append({'path':path,'interval':[lo,hi]})
     out={'verdict':'PASS' if pf and vol_ok and not bad and checked==len(paths) else 'FAIL','arithmetic':'custom Decimal interval diagnostic','delta_A':da,'delta_B':db,'delta_c':dc,'leaf_count':len(paths),'checked':checked,'prefix_free':pf,'exact_volume_closure':vol_ok,'volume':vol,'minimum_leaf_lower':str(minlo),'failures':bad,'elapsed_seconds':time.time()-t,'workers':a.workers}
+    out.update(schema='decimal-compact-diagnostic-v2',evidence_role='diagnostic',
+               witness_sha256=file_sha256(Path(a.witness)),leaf_paths_sha256=file_sha256(Path(a.paths)),R=R)
     print(json.dumps(out,indent=2))
     if a.json_out: Path(a.json_out).write_text(json.dumps(_strip_timing(out),indent=2)+'\n', newline="\n")
     raise SystemExit(0 if out['verdict']=='PASS' else 1)

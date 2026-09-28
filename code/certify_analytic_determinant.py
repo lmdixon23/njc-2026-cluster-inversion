@@ -16,6 +16,7 @@ from decimal import Decimal
 from fractions import Fraction as Q
 from pathlib import Path
 import mpmath as mp
+from report_validation import validate_planar_four
 
 
 def det(u,v): return u[0]*v[1]-u[1]*v[0]
@@ -34,6 +35,7 @@ def main():
     A=[[Q(x) for x in row] for row in obj['A']]
     B=[[Q(x) for x in row] for row in obj['B']]
     c=[Q(x) for x in obj['c']]
+    validate_planar_four(A, B, c)
     cols=[(A[0][i],A[1][i]) for i in range(len(B))]
     m={(i,j):det(cols[i],cols[j])*det(B[i],B[j]) for i in range(4) for j in range(i+1,4)}
     D=det(B[2],B[3])

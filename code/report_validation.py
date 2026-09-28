@@ -28,7 +28,28 @@ EXPECTED_REPORTS = {
 }
 DATA_EXPORTS = {"compact_leaf_paths"}
 SPLIT_RULE = "longer-side; x on ties; child0=lower/left, child1=upper/right"
-NUMBER_RE = re.compile(r"[-+]?(?:\d+(?:\.\d*)?|\.\d+)(?:[eE][-+]?\d+)?")
+NUMBER = r"[-+]?(?:\d+(?:\.\d*)?|\.\d+)(?:[eE][-+]?\d+)?"
+NUMBER_RE = re.compile(NUMBER)
+CANONICAL_WITNESS_SHA256 = 'b4268c92e31066cfa3ea8466dc181ad3bf5876fc29b512493c5d37807c157a40'
+BASE_TAIL_MARGIN = F(273, 10000)
+GEOMETRY_CHECKS = {'crossing_sequence', 'simple_exact_segment_formula', 'monotone_one_sided',
+                   'monotone_graph_gap', 'nonconvex', 'one_negative_mixed_minor'}
+# Exact compatibility anchors for the two shipped diagnostic records. Their old
+# numerical "upper/lower" labels are not promoted to rigorous evidence.
+LEGACY_CONTEXTS = {
+    'd9d181f55227c5f9cd62940e75d6312957893ffadfb918b11be21284b44e2476': {
+        'compact_leaf_paths': '879c77e7f664a18a8f572adb771a14c9bc376dfe57d9d092a432d62b70057562',
+        'compact_independent': '9c0f1c19872d65388c8af4fa849a7ea7582f4cc4dd75ca044d6e66e57a8d7fad',
+        'tail_independent': '4eb7b52a145e001923717bcb4f3380915716128cbca2f953c223d7cf81484245',
+        'tail': 'f1601ccb1e8593e06c0f2f069e0574e7438e24aaa8b8dac8ab83dd98daa395b5',
+    },
+    'fac7e8bc4d25bddcfb6a8b632fb0b0f59d1828f6d6d746d86efa0a0dd1ff29ba': {
+        'compact_leaf_paths': '74d9667077493cbfc680ead81d6d5e74e144315b08b6f9f2f9d86570e9de1d81',
+        'compact_independent': '52b83ae6e115c44cada31d4e90c2cc0b92863c3e2209ed3ee702f2d7234641a3',
+        'tail_independent': 'aa553a86f68b93d9de79c2d95d4a1d7fe18b82379bb0273a50716bec9cdaad76',
+        'tail': 'c70ba8e4ab9a31bbeb375523e6e425e8535566aa62500763a673b7a38039d56a',
+    },
+}
 
 
 class ReportValidationError(ValueError):
@@ -53,6 +74,18 @@ def load_json(path: Path) -> dict:
     return value
 
 
+def validate_planar_four(A, B, c=None) -> None:
+    require(len(A) == 2 and all(len(row) == 4 for row in A)
+            and len(B) == 4 and all(len(row) == 2 for row in B)
+            and (c is None or len(c) == 4), 'certificate requires planar width-four A, B, c')
+
+
+def validate_fixed_context(witness_sha: str, R: int, grid: int) -> None:
+    require(witness_sha == CANONICAL_WITNESS_SHA256, 'tail transfer supports only the exact canonical witness')
+    require(type(R) is int and R == 582 and type(grid) is int and grid == 200000,
+            'tail transfer requires R=582 and grid=200000')
+
+
 def as_fraction(value, label: str) -> F:
     try:
         return F(Decimal(str(value))) if "/" not in str(value) else F(str(value))
@@ -60,23 +93,43 @@ def as_fraction(value, label: str) -> F:
         raise ReportValidationError(f"{label}: invalid rational value {value}") from exc
 
 
-def first_decimal(value, label: str) -> Decimal:
-    match = NUMBER_RE.search(str(value))
-    require(match is not None, f"{label}: no numeric endpoint")
-    return Decimal(match.group(0))
+def interval_bounds(value, label: str) -> tuple[F, F]:
+    """Parse complete finite scalar, endpoint interval, or Arb ball exactly."""
+    text = str(value).strip()
+    if NUMBER_RE.fullmatch(text):
+        q = F(text)
+        return q, q
+    endpoints = re.fullmatch(rf'\[\s*({NUMBER})\s*,\s*({NUMBER})\s*\]', text)
+    ball = re.fullmatch(rf'\[\s*({NUMBER})\s*\+/-\s*({NUMBER})\s*\]', text)
+    if endpoints:
+        lo, hi = map(F, endpoints.groups())
+        require(lo <= hi, f'{label}: reversed interval')
+        return lo, hi
+    if ball:
+        midpoint, radius = map(F, ball.groups())
+        require(radius >= 0, f'{label}: negative radius')
+        return midpoint-radius, midpoint+radius
+    raise ReportValidationError(f'{label}: invalid finite bound {value!r}')
+
+
+def first_decimal(value, label: str) -> F:
+    """Compatibility API: return the actual lower bound, never a ball midpoint."""
+    return interval_bounds(value, label)[0]
 
 
 def config_deltas(configuration: dict) -> tuple[F, F, F]:
     common = configuration.get("delta", "0")
-    return (
+    result = (
         as_fraction(configuration.get("delta_A", common), "config delta_A"),
         as_fraction(configuration.get("delta_B", common), "config delta_B"),
         as_fraction(configuration.get("delta_c", common), "config delta_c"),
     )
+    require(all(value >= 0 for value in result), 'negative parameter radius')
+    return result
 
 
 def abc_payload_sha256(witness_path: Path) -> str:
-    data = load_json(witness_path)
+    data = json.loads(witness_path.read_text(encoding='utf-8'), parse_float=Decimal)
     payload = json.dumps(
         {
             "A": [[str(x) for x in row] for row in data["A"]],
@@ -159,18 +212,24 @@ def validate_compact_independent(report: dict, configuration: dict, path_info: d
     require(report.get("exact_volume_closure") is True, f"{label}: volume closure failed")
     require(report.get("failures") == [], f"{label}: failures are nonempty")
     volume = report.get("volume", {})
-    require(str(volume.get("normalized_numerator")) == str(volume.get("normalized_denominator")),
+    require(as_fraction(volume.get('normalized_numerator'), 'volume numerator') > 0
+            and as_fraction(volume.get('normalized_numerator'), 'volume numerator')
+            == as_fraction(volume.get('normalized_denominator'), 'volume denominator'),
             f"{label}: reported volume does not close")
 
 
-def validate_geometry(report: dict, witness_sha: str) -> None:
+def validate_geometry(report: dict, witness_sha: str, configuration: dict | None = None) -> None:
     label = "geometry"
     require(report.get("verdict") == "PASS", f"{label}: verdict is not PASS")
     require(report.get("witness_sha256") == witness_sha, f"{label}: witness hash mismatch")
     checks = report.get("checks")
-    require(isinstance(checks, dict) and checks and all(value is True for value in checks.values()),
+    require(isinstance(checks, dict) and set(checks) == GEOMETRY_CHECKS and all(value is True for value in checks.values()),
             f"{label}: a required predicate failed")
     require(report.get("segment_failures") == [], f"{label}: segment failures are nonempty")
+    generator_radius = as_fraction(report.get('geometry_open_radius', {}).get('delta_edge_inf_lower'), 'generator radius')
+    row_radius = as_fraction(report.get('row_order_open_radius_inf'), 'row radius')
+    da, db, _ = config_deltas(configuration or {})
+    require(generator_radius > da and row_radius > db, 'geometry radii do not cover parameter box strictly')
 
 
 def validate_tail(report: dict, configuration: dict, witness_sha: str, payload_sha: str) -> None:
@@ -184,19 +243,49 @@ def validate_tail(report: dict, configuration: dict, witness_sha: str, payload_s
     actual_deltas = tuple(as_fraction(report.get(key), f"{label} {key}") for key in ("delta_A", "delta_B", "delta_c"))
     require(actual_deltas == expected_deltas, f"{label}: parameter deltas do not match config")
     require(report.get("minor_sign_preservation") is True, f"{label}: minor signs are not preserved")
+    require(as_fraction(report.get('base_tail_margin_lower'), 'tail base') == BASE_TAIL_MARGIN, 'wrong transferred base margin')
+    degradation = interval_bounds(report.get('tail_margin_degradation_upper'), 'tail degradation')[1]
+    require(degradation >= 0, 'negative tail degradation')
     require(first_decimal(report.get("tail_margin_residual_lower"), f"{label} residual") > 0,
             f"{label}: residual margin is not positive")
+    require(first_decimal(report.get('tail_margin_residual_lower'), 'tail residual') <= BASE_TAIL_MARGIN-degradation,
+            'tail residual exceeds base minus degradation')
 
 
 def validate_tail_independent(report: dict, configuration: dict) -> None:
+    """Diagnostic agreement only; primary transfer and Arb base remain mandatory."""
     label = "tail_independent"
     require(report.get("verdict") == "PASS", f"{label}: verdict is not PASS")
     expected_deltas = config_deltas(configuration)
     actual_deltas = tuple(as_fraction(report.get(key), f"{label} {key}") for key in ("delta_A", "delta_B", "delta_c"))
     require(actual_deltas == expected_deltas, f"{label}: parameter deltas do not match config")
     require(report.get("minor_sign_preservation") is True, f"{label}: minor signs are not preserved")
-    require(first_decimal(report.get("residual_lower"), f"{label} residual") > 0,
+    require(first_decimal(report.get("residual_estimate", report.get("residual_lower")), f"{label} residual") > 0,
             f"{label}: residual margin is not positive")
+
+
+def validate_component_context(name, report, report_path, configuration, config_path,
+                               witness_sha, leaf_path, base_binding):
+    """Bind new reports explicitly; accept only exact archived legacy diagnostics."""
+    schema = {'compact_independent': 'decimal-compact-diagnostic-v2',
+              'tail_independent': 'decimal-tail-diagnostic-v2', 'tail': 'tail-transfer-v2'}[name]
+    if report.get('schema') is not None:
+        require(report.get('schema') == schema, f'{name}: wrong report schema')
+        require(report.get('witness_sha256') == witness_sha, f'{name}: witness context missing')
+        require(report.get('R') == configuration['R'], f'{name}: wrong radius')
+        if name == 'compact_independent':
+            require(report.get('leaf_paths_sha256') == file_sha256(leaf_path), f'{name}: leaf binding mismatch')
+        else:
+            require(report.get('grid') == configuration['grid'], f'{name}: wrong grid')
+            require(report.get('base_evidence') == base_binding, f'{name}: base evidence mismatch')
+        if name.endswith('independent'):
+            require(report.get('evidence_role') == 'diagnostic', f'{name}: Decimal evidence must be diagnostic')
+        return
+    legacy = LEGACY_CONTEXTS.get(file_sha256(config_path), {})
+    require(witness_sha == CANONICAL_WITNESS_SHA256
+            and file_sha256(report_path) == legacy.get(name)
+            and file_sha256(leaf_path) == legacy.get('compact_leaf_paths'),
+            f'{name}: unbound legacy evidence; generate a new context-bound successor')
 
 
 def validate_compact_arb(
@@ -244,13 +333,17 @@ def validate_open_family_reports(report_dir: Path, config_path: Path) -> tuple[d
     reports = {name: load_json(path) for name, path in paths.items()}
     witness_path = resolve_witness(config_path, configuration)
     witness_sha = file_sha256(witness_path)
+    base_binding = validated_tail_base(witness_path, configuration['R'], configuration['grid'])
     payload_sha = abc_payload_sha256(witness_path)
     path_info = validate_leaf_paths(reports["compact_leaf_paths"], int(configuration["R"]))
     validate_compact(reports["compact"], configuration, witness_sha, path_info)
     validate_compact_independent(reports["compact_independent"], configuration, path_info)
-    validate_geometry(reports["geometry"], witness_sha)
+    validate_geometry(reports["geometry"], witness_sha, configuration)
     validate_tail(reports["tail"], configuration, witness_sha, payload_sha)
     validate_tail_independent(reports["tail_independent"], configuration)
+    for name in ('compact_independent', 'tail_independent', 'tail'):
+        validate_component_context(name, reports[name], paths[name], configuration, config_path,
+                                   witness_sha, paths['compact_leaf_paths'], base_binding)
     validate_compact_arb(
         reports["compact_arb"], configuration, config_path, witness_sha,
         paths["compact"], paths["compact_leaf_paths"], path_info,
@@ -287,19 +380,34 @@ def validate_combined(report_dir: Path, config_path: Path) -> None:
 
 
 def validate_point_tail(report: dict, witness_sha: str, R: int, grid: int) -> None:
+    validate_fixed_context(witness_sha, R, grid)
     require(report.get("verdict") == "PASS", "point_tail_recomputed: verdict is not PASS")
     require(report.get("witness_sha256") == witness_sha, "point_tail_recomputed: witness hash mismatch")
     require(report.get("R") == R and report.get("grid") == grid, "point_tail_recomputed: wrong grid context")
     validate_signs(report, "point_tail_recomputed")
     tail = report.get("tail", {})
     require(tail.get("passed") is True, "point_tail_recomputed: tail failed")
-    require(first_decimal(tail.get("worst_margin"), "point tail margin") > 0,
-            "point_tail_recomputed: margin is not positive")
+    require(first_decimal(tail.get("worst_margin"), "point tail margin") >= BASE_TAIL_MARGIN,
+            "point_tail_recomputed: margin is below transferred base")
+    require(all(as_fraction(report.get(k), k) == 0 for k in ('delta_A', 'delta_B', 'delta_c')),
+            'point_tail_recomputed: nonzero parameter radius')
+    chunks = tail.get('chunks')
+    require(isinstance(chunks, list) and chunks, 'point tail: missing angular chunks')
+    cursor = 0
+    for chunk in sorted(chunks, key=lambda item: item.get('start', -1)):
+        require(type(chunk.get('start')) is int and type(chunk.get('end')) is int
+                and chunk['start'] == cursor and cursor < chunk['end'] <= grid,
+                'point tail: incomplete or overlapping angular chunks')
+        require(chunk.get('passed') is True and first_decimal(chunk.get('worst'), 'chunk margin') >= BASE_TAIL_MARGIN,
+                'point tail: chunk does not establish transferred margin')
+        cursor = chunk['end']
+    require(cursor == grid, 'point tail: incomplete angular coverage')
 
 
 def validate_point_tail_arb(report_path: Path, point_path: Path, witness_path: Path, R: int, grid: int) -> None:
     report = load_json(report_path)
     witness_sha = file_sha256(witness_path)
+    validate_fixed_context(witness_sha, R, grid)
     require(report.get("schema") == "arb-point-tail-replay-v1", "point_tail_arb: wrong schema")
     require(report.get("verdict") == "PASS", "point_tail_arb: verdict is not PASS")
     require(report.get("witness_sha256") == witness_sha, "point_tail_arb: witness hash mismatch")
@@ -309,5 +417,18 @@ def validate_point_tail_arb(report_path: Path, point_path: Path, witness_path: P
             "point_tail_arb: precision is too low")
     require(report.get("checked") == grid, "point_tail_arb: incomplete grid coverage")
     require(report.get("failures") == [], "point_tail_arb: failures are nonempty")
-    require(first_decimal(report.get("worst_margin_lower"), "point_tail_arb margin") > 0,
-            "point_tail_arb: margin is not positive")
+    require(first_decimal(report.get("worst_margin_lower"), "point_tail_arb margin") >= BASE_TAIL_MARGIN,
+            "point_tail_arb: margin is below transferred base")
+
+
+def validated_tail_base(witness_path: Path, R: int, grid: int, point_path=None, arb_path=None) -> dict:
+    """Validate retained evidence; does not claim a fresh Arb execution."""
+    root = Path(__file__).resolve().parents[1]
+    point_path = Path(point_path) if point_path else root / 'results/point_tail_recomputed.json'
+    arb_path = Path(arb_path) if arb_path else root / 'results/point_tail_arb.json'
+    witness_path = Path(witness_path)
+    validate_fixed_context(file_sha256(witness_path), R, grid)
+    validate_point_tail(load_json(point_path), file_sha256(witness_path), R, grid)
+    validate_point_tail_arb(arb_path, point_path, witness_path, R, grid)
+    return {'point_report_sha256': file_sha256(point_path), 'point_arb_report_sha256': file_sha256(arb_path),
+            'base_margin_lower': '0.0273'}

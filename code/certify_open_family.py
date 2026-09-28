@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Reusable open-family certificate driver for planar one-negative-minor networks.
+"""Open-family certificate driver for the canonical planar four-ridge witness.
 
 Input is a JSON configuration naming a witness, a compact radius R, an angular
 grid, and either a common or anisotropic parameter box.  The driver runs:
@@ -9,15 +9,13 @@ grid, and either a common or anisotropic parameter box.  The driver runs:
   4. optional independent Decimal replay of the exported compact leaves;
   5. optional independent Decimal replay of the analytic tail loss.
 
-The current tail lemma applies to planar networks whose Cauchy-Binet expansion
-has exactly one negative pair and for which every direction is dominated by at
-least one positive pair.  The witness is the first packaged application; the
-configuration interface is not hard-coded to its numerical entries.
+The tail transfer is restricted to the exact witness and its retained R=582,
+200000-direction base certificates. Other networks need their own proof module.
 """
 from __future__ import annotations
 import argparse,json,subprocess,sys
 from pathlib import Path
-from report_validation import ReportValidationError, build_combined
+from report_validation import ReportValidationError, build_combined, validated_tail_base, config_deltas, require
 
 def run(cmd,stdout=None,allowed=(0,)):
     print('+',' '.join(map(str,cmd)),flush=True)
@@ -30,6 +28,10 @@ def main():
     ap=argparse.ArgumentParser(); ap.add_argument('config'); ap.add_argument('--skip-independent',action='store_true'); a=ap.parse_args()
     config_path=Path(a.config).resolve(); cfg=json.load(open(config_path)); root=Path(__file__).resolve().parents[1]; py=sys.executable
     witness=str((config_path.parent/Path(cfg['witness'])).resolve()) if not Path(cfg['witness']).is_absolute() else cfg['witness']
+    config_deltas(cfg)
+    validated_tail_base(Path(witness), cfg.get('R',582), cfg.get('grid',200000))
+    require(not cfg.get('geometry_command') and cfg.get('use_witness_geometry',True),
+            'canonical certificate requires the exact witness geometry checker')
     out=root/'results'/cfg.get('name','open_family'); out.mkdir(parents=True,exist_ok=True)
     da=str(cfg.get('delta_A',cfg.get('delta','0'))); db=str(cfg.get('delta_B',cfg.get('delta','0'))); dc=str(cfg.get('delta_c',cfg.get('delta','0')))
     common=['--delta','0','--delta-a',da,'--delta-b',db,'--delta-c',dc,'--witness',witness]

@@ -13,6 +13,7 @@ from decimal import Decimal
 from fractions import Fraction as F
 from pathlib import Path
 from mpmath import iv, mp
+from report_validation import validate_planar_four, validate_fixed_context, require
 
 
 
@@ -35,6 +36,7 @@ def load(path: Path):
     A=[[F(x) for x in r] for r in d['A']]
     B=[[F(x) for x in r] for r in d['B']]
     c=[F(x) for x in d['c']]
+    validate_planar_four(A, B, c)
     return A,B,c,hashlib.sha256(raw).hexdigest()
 
 def qiv(q:F):
@@ -53,6 +55,7 @@ def norm_up(v):
     return mp.sqrt(x*x+y*y)*(1+mp.mpf(2)**(-20))
 
 def minors(A,B):
+    validate_planar_four(A, B)
     out={}
     for i,j in itertools.combinations(range(4),2):
         da=A[0][i]*A[1][j]-A[0][j]*A[1][i]
@@ -75,6 +78,8 @@ def constants(path,dps):
 
 def worker(args):
     path,R,Mgrid,start,end,dps=args
+    require(type(R) is int and R > 0 and type(Mgrid) is int and Mgrid > 0
+            and 0 <= start < end <= Mgrid and dps >= 30, 'invalid angular worker context')
     B,m,pos,I,K,L,sha=constants(path,dps)
     half_arc=mp.pi/Mgrid*(1+mp.mpf(2)**(-30))
     dth=2*iv.pi/Mgrid
@@ -101,6 +106,8 @@ def main():
     ap.add_argument('--workers',type=int,default=max(1,min(8,mpool.cpu_count()))); ap.add_argument('--dps',type=int,default=40)
     ap.add_argument('--json-out',default=str(root/'results'/'point_tail_recomputed.json'))
     a=ap.parse_args(); A,B,c,sha=load(Path(a.witness)); m=minors(A,B)
+    validate_fixed_context(sha, a.R, a.grid)
+    require(a.workers > 0 and a.dps >= 30, 'invalid workers or precision')
     chunks=[]
     for w in range(a.workers):
         lo=a.grid*w//a.workers; hi=a.grid*(w+1)//a.workers

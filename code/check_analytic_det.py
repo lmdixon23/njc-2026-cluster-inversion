@@ -9,6 +9,7 @@ sampling of (z2,z3) to confirm the chain of inequalities is not vacuous.
 import json
 from fractions import Fraction as Fr
 from pathlib import Path
+from report_validation import validate_planar_four
 from flint import arb, ctx
 ctx.prec = 400
 
@@ -17,6 +18,7 @@ d = json.loads((ROOT / 'data' / 'witness.json').read_text(encoding='utf-8'), par
 A = [[Fr(x) for x in r] for r in d['A']]
 B = [[Fr(x) for x in r] for r in d['B']]
 c = [Fr(x) for x in d['c']]
+validate_planar_four(A, B, c)
 det2 = lambda u, v: u[0]*v[1] - u[1]*v[0]
 Ac = [(A[0][i], A[1][i]) for i in range(4)]
 m = {(i,j): det2(Ac[i], Ac[j]) * det2(B[i], B[j]) for i in range(4) for j in range(i+1,4)}

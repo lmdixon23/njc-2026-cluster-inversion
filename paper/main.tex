@@ -127,7 +127,7 @@ The injectivity proof does not rely on the averaged Jacobian.  It begins with a 
 
 The paper answers that question at three levels.  A complete orientation formula reduces simplicity, including degenerate cases, to finitely many polynomial sign and interval-order predicates (\Cref{thm:closed-form}).  In the sign-coherent regime, the mixed minors $\det(a_i,a_j)\det(b_i,b_j)$ have one sign exactly when the asymptotic polygon is strictly convex (\Cref{thm:mixed-convexity}).  Beyond that regime, magnitudes are indispensable: positive rescaling can preserve every determinant sign while changing a simple polygon into a self-intersecting one (\Cref{prop:sign-insufficient}).  A short magnitude-sensitive criterion then proves the witness octagon simple from four monotonicity signs and three prefix-side signs (\Cref{thm:one-sided,cor:witness-structural}); the twenty-pair exact segment test is retained only as a cross-check.
 
-These strict inequalities also show that polygon simplicity is stable under small perturbations. Combined with the analytic determinant theorem and the separately implemented finite parameter certificates, this yields both a human-readable analytic class and a certified neighborhood of globally injective networks around the witness (\Cref{cor:analytic-class,thm:open-family}). The explicit certified boxes remain local in parameter space, while the analytic criterion itself defines a broader open subclass. The analytic and geometric hypotheses are sufficient conditions for this open subclass; no necessity claim for all four-ridge networks is made here.
+These strict inequalities also show that polygon simplicity is stable under small perturbations. Combined with the analytic determinant theorem and the separately implemented finite parameter certificates, this yields both a human-readable analytic class and a certified neighborhood of globally injective networks around the witness (\Cref{cor:analytic-class,thm:open-family}). The analytic criterion supplies a broader sufficient class, which may include zero remaining mixed minors; the explicit certificates establish an open neighborhood of the witness. No necessity claim for all four-ridge networks is made here.
 
 \Cref{sec:weights} develops the derivative-weight formulation and analytic positivity mechanism; \Cref{sec:theorem} proves the cluster-set inversion theorem; \Cref{sec:lemma} derives the asymptotic polygon; \Cref{sec:simplicity} develops the structural criteria needed for the witness; \Cref{sec:cert} applies them; and \Cref{sec:injectivity,sec:winding} establish global injectivity and the exact multiplicity formula. \Cref{sec:n4} records the remaining four-ridge boundary obstruction, while \Cref{sec:reconcile,sec:conclusion} synthesize the interior and boundary mechanisms. Complete all-cases polygon predicates and quantitative certificate details are collected in \Cref{app:polygon-criteria,app:det}.
 
@@ -456,10 +456,10 @@ Boundedness cannot be dropped: the identity map $F(x)=x$ is a local diffeomorphi
 % =====================================================================
 \section{The asymptotic polygon of a ridge network}\label{sec:lemma}
 
-Write $F(x)=A\,f(Bx+c)$ with columns $a_0,\dots,a_{N-1}\in\R^2$ of $A$ and rows $b_0,\dots,b_{N-1}\in\R^2$ of $B$, and let $f$ act coordinatewise. For a unit vector $u$ put $S(u)=\{\,i: b_i\cdot u>0\,\}$ and $V(S)=\sum_{i\in S}a_i$. The \emph{asymptotic polygon} $\Gamma$ is the closed curve through the vertices $V(S(u))$ ordered by the angular arrangement $\{\,b_i\cdot u=0\,\}$ on the circle; consecutive sectors differ by one flipped index, so each edge is $\pm a_j$.
+Write $F(x)=A\,f(Bx+c)$ with columns $a_0,\dots,a_{N-1}\in\R^2$ of $A$ and rows $b_0,\dots,b_{N-1}\in\R^2$ of $B$, and let $f$ act coordinatewise. Throughout the asymptotic-polygon construction and its ridge-map degree applications, assume that every row of $B$ is nonzero and the rows are pairwise nonparallel. For a unit vector $u$ put $S(u)=\{\,i: b_i\cdot u>0\,\}$ and $V(S)=\sum_{i\in S}a_i$. The \emph{asymptotic polygon} $\Gamma$ is the closed curve through the vertices $V(S(u))$ ordered by the angular arrangement $\{\,b_i\cdot u=0\,\}$ on the circle; consecutive sectors differ by one flipped index, so each edge is $\pm a_j$.
 
 \begin{lemma}[cluster set of a ridge network]\label{lem:polygon}
-Let $f:\R\to\R$ be strictly increasing with $\lim_{t\to-\infty}f(t)=0$ and $\lim_{t\to+\infty}f(t)=1$, and let the nonzero rows $b_i$ be pairwise nonparallel. Then $\clinf(F)\subseteq\Gamma$. Only monotonicity and the two endpoint limits are used; no growth rate is assumed.
+Let $f:\R\to\R$ be strictly increasing with $\lim_{t\to-\infty}f(t)=0$ and $\lim_{t\to+\infty}f(t)=1$, and assume that every row $b_i$ is nonzero and the rows are pairwise nonparallel. Then $\clinf(F)\subseteq\Gamma$. Only monotonicity and the two endpoint limits are used; no growth rate is assumed.
 \end{lemma}
 
 The proof (\Cref{app:proof}) passes to a limiting direction $x_k/\norm{x_k}\to u$: every index with $b_i\cdot u\neq 0$ saturates to $0$ or $1$ with sign $\sgn(b_i\cdot u)$; pairwise nonparallel rows leave at most one index $j$ with $b_j\cdot u=0$, whose activation subconverges to some $t\in[0,1]$, so the image limit is the edge point $V(S)+t\,a_j$.
@@ -517,7 +517,7 @@ The formula is complete but does not by itself explain geometry.  The first stru
 \]
 
 \begin{theorem}[mixed-minor convexity]\label{thm:mixed-convexity}
-Assume the rows of $B$ are nonzero and pairwise nonparallel, and the signed edge generators $g_1,\ldots,g_N$ are nonzero and pairwise nonparallel.  The asymptotic polygon is strictly convex if and only if all $M_{ij}$ have the same nonzero sign.
+Assume $N\ge2$, the rows of $B$ are nonzero and pairwise nonparallel, and the signed edge generators $g_1,\ldots,g_N$ are nonzero and pairwise nonparallel.  The asymptotic polygon is strictly convex if and only if all $M_{ij}$ have the same nonzero sign.
 \end{theorem}
 
 \begin{proof}
@@ -556,7 +556,7 @@ whose nonadjacent edges cross at $(7,3)$ and $(9,4)$.  Thus magnitudes, through 
 A short magnitude-sensitive condition is enough for the witness.
 
 \begin{theorem}[monotone one-sided simplicity]\label{thm:one-sided}
-Suppose there is a nonzero linear functional $q$ such that
+Suppose $N\ge2$ and there is a nonzero linear functional $q$ such that
 \[
  q(g_k)>0\qquad(k=1,\ldots,N),
 \]
@@ -721,7 +721,7 @@ For the witness result above we do not use any equivalence between simplicity of
 The inversion theorem of \Cref{sec:theorem} is sufficient but not evidently necessary.  For planar ridge maps, a direct uniform reparameterization of large circles recovers the entire ordered polygonal loop, including the wall edges. This supplies an exact Brouwer-degree count without requiring a separate abstract compactification.
 
 \begin{lemma}[cluster equality under continuous saturation]\label{lem:equality}
-Assume the rows are pairwise nonparallel and the activation $f$ is continuous, strictly increasing, and has limits $0$ and $1$.  Then $\clinf(F)=|\gamma|$.
+Assume every row is nonzero, the rows are pairwise nonparallel, and the activation $f$ is continuous, strictly increasing, and has limits $0$ and $1$.  Then $\clinf(F)=|\gamma|$.
 \end{lemma}
 \begin{proof}
 The inclusion from left to right is the limiting-direction argument of \Cref{lem:polygon}.  Continuity and strict monotonicity make $f$ a homeomorphism from $\R$ onto $(0,1)$.  A vertex is attained along a ray in the corresponding open direction sector.  For an edge point with activation coordinate $t\in(0,1)$ on the wall of row $j$, choose the unique $\tau$ with $f(\tau)=t$, a wall direction $u_j$, and a fixed vector $v_j$ with $b_j\cdot v_j=1$. Then
@@ -736,7 +736,7 @@ Let
 \[
  F(x)=A f(Bx+c):\R^2\longrightarrow\R^2,
 \]
-where the nonzero rows of $B$ are pairwise nonparallel and $f$ is continuous, strictly increasing, with limits $0$ and $1$.  Let $\gamma:S^1\to\R^2$ be the row-ordered signed-column polygonal loop.  There are orientation-preserving circle homeomorphisms $h_R:S^1\to S^1$ such that
+where every row of $B$ is nonzero, the rows are pairwise nonparallel, and $f$ is continuous, strictly increasing, with limits $0$ and $1$.  Let $\gamma:S^1\to\R^2$ be the row-ordered signed-column polygonal loop, parameterized with vertex pauses and linear edge traversals as in the construction below. There are orientation-preserving circle homeomorphisms $h_R:S^1\to S^1$ such that
 \[
  \sup_{\theta\in S^1}
  \bigl\|F(Ru(h_R(\theta)))-\gamma(\theta)\bigr\|\longrightarrow0,
@@ -916,7 +916,7 @@ Closed-form high-precision recomputation and IVT argument\\
 release gate is
 \begin{quote}\ttfamily bash run\_all.sh
 \end{quote}
-The gate must run under the interpreter that carries \texttt{requirements-lock.txt}.  The script selects one that can import \texttt{python-flint} and prints it before the first check; an explicit choice may be supplied as \texttt{PY=/path/to/python bash run\_all.sh}.  On systems where \texttt{bash} resolves to the Windows Subsystem for Linux, the default interpreter is a separate installation and may lack those dependencies even when a native installation carries them.  The repository fixes LF line endings on every platform through \texttt{.gitattributes}, and the artifact writers pin LF explicitly; a manifest mismatch accompanied by a clean \texttt{git status} therefore indicates a line-ending translation rather than a content difference.  Persisted certificate reports carry no wall-clock timings, so re-running any certification reproduces its artifacts byte for byte and the manifest remains valid.  All script output is ASCII, so the gate may be run with its output redirected to a file or captured by a continuous-integration job on any platform.
+The gate must run under the interpreter that carries \texttt{requirements-lock.txt}.  The script selects one that can import \texttt{python-flint} and prints it before the first check; an explicit choice may be supplied as \texttt{PY=/path/to/python bash run\_all.sh}.  On systems where \texttt{bash} resolves to the Windows Subsystem for Linux, the default interpreter is a separate installation and may lack those dependencies even when a native installation carries them.  The repository fixes LF line endings on every platform through \texttt{.gitattributes}, and the artifact writers pin LF explicitly; a manifest mismatch accompanied by a clean \texttt{git status} therefore indicates a line-ending translation rather than a content difference.  Persisted reports omit wall-clock timings. The shipped reports retain their original bytes; producer repairs may change report schemas or final rounding, so a fresh full run creates successor evidence that must be validated and rebound before a new manifest is frozen. The fast gate validates retained reports and executes the short checks; it does not regenerate the complete spatial certificates.  All script output is ASCII, so the gate may be run with its output redirected to a file or captured by a continuous-integration job on any platform.
 and ends with \texttt{VERDICT: ALL MAINTAINED CHECKS PASSED}. The expensive
 common-radius workflow is
 \begin{quote}\ttfamily python code/certify\_open\_family.py config/witness\_common.json.
@@ -928,11 +928,10 @@ and exact dyadic volume closure; its determinant reevaluation is a
 corroborating numerical diagnostic. Separately, the Arb compact replay
 reconstructs and rigorously rescores every exported leaf using ball arithmetic,
 and the Arb tail replay rescores all $200{,}000$ fixed-radius angular directions.
-A separate tail-transfer checker rederives the minor and
-logarithmic loss bounds. Each combined parameter report
+A separate Decimal tail calculation rederives the minor and logarithmic loss estimates as a diagnostic. The proof-bearing interval transfer requires matching complete point-tail and Arb reports with lower margin at least $0.0273$. Each combined parameter report
 embeds the SHA-256 and byte count of every subreport it summarizes; the verifier
 recomputes the semantic verdicts, checks the exact expected component set, and
-rejects stale or mismatched configuration, witness, report, and leaf bindings.
+rejects stale or mismatched configuration, witness, report, and leaf bindings. Archived Decimal reports are accepted only through exact compatibility hashes and remain diagnostic evidence; their historical upper/lower labels are not treated as rigorous enclosures.
 
 \paragraph{Analytic and degree checks.} \texttt{bash code/run\_structural\_checks.sh} runs the scalar analytic-determinant certificate, the exact winding-spectrum computation, and the four-ridge winding-two probe, each fail-closed (\Cref{sec:weights,sec:winding,sec:n4}). The witness spectrum $\{0,1\}$ was confirmed by three exact-arithmetic implementations, including a separate SymPy kernel.
 
@@ -940,7 +939,7 @@ rejects stale or mismatched configuration, witness, report, and leaf bindings.
 
 \paragraph{Falsification criteria.} The geometry checker rejects row dependence, repeated vertices, zero edges, adjacent overlap, or any nonadjacent intersection.  Parameter certificates reject ambiguous minor signs, any compact leaf whose determinant lower endpoint is not strictly positive, incomplete partition volume, a non-prefix-free path set, or a nonpositive tail residual. The package verifier also rejects missing expected reports or content-hash mismatches.
 
-\paragraph{Limitations.} The exact simplicity formula is semialgebraic rather than sign-only; \Cref{prop:sign-insufficient} proves that sign-only data cannot suffice outside the convex regime. The radii are conservative inner bounds and are not maximal. The generating compact certificates use \texttt{mpmath.iv} 1.3.0, whose \href{https://mpmath.org/doc/current/contexts.html}{official documentation} states interval-containment semantics while designating the interval subsystem experimental. The public Arb implementation therefore reconstructs and rigorously rescores every exported leaf; the separate Decimal layer is retained for partition reconstruction and diagnostic rescoring. The polygon method is planar and assumes bounded saturating activations with a nondegenerate row arrangement. The degree argument assumes a continuous strictly increasing saturating activation and pairwise nonparallel rows; the equivalence between injectivity and polygon simplicity is stated only in generic transverse position. The degree--winding chain has been separately reconstructed, and the witness spectrum has been checked in three exact-arithmetic kernels. These verification records do not substitute for journal peer review.
+\paragraph{Limitations.} The exact simplicity formula is semialgebraic rather than sign-only; \Cref{prop:sign-insufficient} proves that sign-only data cannot suffice outside the convex regime. The radii are conservative inner bounds and are not maximal. The generating compact certificates use \texttt{mpmath.iv} 1.3.0, whose \href{https://mpmath.org/doc/current/contexts.html}{official documentation} states interval-containment semantics while designating the interval subsystem experimental. The public Arb implementation therefore reconstructs and rigorously rescores every exported leaf; the separate Decimal layer is retained for partition reconstruction and diagnostic rescoring. The polygon method is planar and assumes bounded saturating activations with a nondegenerate row arrangement. The degree argument assumes a continuous strictly increasing saturating activation and nonzero, pairwise nonparallel rows; the equivalence between injectivity and polygon simplicity is stated only in generic transverse position. The degree--winding chain has been separately reconstructed, and the witness spectrum has been checked in three exact-arithmetic kernels. These verification records do not substitute for journal peer review.
 
 % =====================================================================
 \section*{Declarations}
@@ -1067,7 +1066,7 @@ The interval tests quantify universally over the parameter box.  The exact polyg
 \end{proof}
 
 \begin{remark}
-The procedure is implemented by \path{code/certify_open_family.py}.  It accepts a configuration file, exports a prefix-free compact leaf cover, and can invoke a second arithmetic implementation to replay both the compact and tail parts. The current tail module covers the one-negative-minor domination regime; the geometric and compact-cover components accept arbitrary planar hidden width.
+The procedure is implemented by \path{code/certify_open_family.py}.  It accepts a configuration file, exports a prefix-free compact leaf cover, and can invoke a second arithmetic implementation to replay both the compact and tail parts. The maintained implementation is restricted to planar width four and the one-negative-minor domination regime. The theorem describes the mathematical procedure more generally; the software does not certify arbitrary hidden width.
 \end{remark}
 
 \subsection{Certified parameter boxes}\label{app:quant-boxes}
@@ -1083,7 +1082,7 @@ The same conclusion holds throughout the entrywise box
 \end{corollary}
 
 \begin{proof}
-The exact geometry bounds absorb the stated $A$ and $B$ perturbations. The compact parameter cover has $96{,}517$ terminal leaves. The \path{mpmath.iv} interval workflow generates the cover, a separate Arb implementation rigorously rescores every leaf, and a custom Decimal implementation separately reconstructs the prefix-free partition, verifies exact volume closure, and diagnostically rescores every leaf. The tail transfer retains a lower margin exceeding $0.00415$, recomputed in a separate Decimal implementation. Apply \Cref{thm:radius-procedure}.
+The exact geometry bounds absorb the stated $A$ and $B$ perturbations. The compact parameter cover has $96{,}517$ terminal leaves. The \path{mpmath.iv} interval workflow generates the cover, a separate Arb implementation rigorously rescores every leaf, and a custom Decimal implementation separately reconstructs the prefix-free partition, verifies exact volume closure, and diagnostically rescores every leaf. The interval tail transfer retains a lower margin exceeding $0.00415$. A separate Decimal calculation provides a diagnostic cross-check, not an outward-rounded proof of that margin. Apply \Cref{thm:radius-procedure}.
 \end{proof}
 
 \begin{remark}[quantitative certificate]
@@ -1101,14 +1100,14 @@ The exact determinant certificate reads $A,B,c$ as exact rationals from the
 canonical witness file, with no intermediate pickle. It forms
 the six $m_{ij}$ exactly and encloses
 $\sigma'(t)=1/(2+e^{t}+e^{-t})$ in interval arithmetic
-(\texttt{mpmath.iv}); the denominator exceeds $4$, so the reciprocal is safe.
+(\texttt{mpmath.iv}); the denominator is at least $4$, so the reciprocal is safe.
 A box in $x$ is \emph{certified} only when the lower end of the resulting
 interval enclosure of $\det DF$ is strictly positive. This is decided by
 interval comparison, never a midpoint test, so a reported certification is
 rigorous at any working precision; lower precision merely widens enclosures and
 forces more subdivision. The run has two parts.
 \begin{itemize}[leftmargin=*]
-\item \emph{Tail (fixed radius).} We certify a \emph{fixed} radius $R$ directly, rather than a supremum of quotients. For a unit direction $u$ and a positive pair $\{k,l\}$ put $g_{kl}(u)=\rho_2(u)+\rho_3(u)-\rho_k(u)-\rho_l(u)$ with $\rho_i(u)=|b_i\cdot u|$; the pair dominates the negative term at radius $R$ when $g_{kl}(u)>0$ and $R\,g_{kl}(u)>K_{kl}$, where $K_{kl}=\ln\!\bigl(16\,|m_{23}|/m_{kl}\bigr)+|c_2|+|c_3|+|c_k|+|c_l|$ (from $\sum|t_{\{2,3\}}|-\sum|t_{\{k,l\}}|\ge r\,g_{kl}-\sum|c|$ and $\sigma'(t)\in[\tfrac14 e^{-|t|},\,e^{-|t|}]$). For a proposed integer $R$ the certifier checks, at every point of an angular grid, that some positive pair has $g_{kl}>0$ and $R\,g_{kl}-K_{kl}>0$ after subtracting the between-grid Lipschitz allowance $R\,L_{kl}\,\Delta\theta/2$ with $L_{kl}=\norm{b_2}+\norm{b_3}+\norm{b_k}+\norm{b_l}$; the dominating pair may switch between neighboring directions. All bounds are outward, so a positive verdict is rigorous, and the test is monotone in $R$.
+\item \emph{Tail (fixed radius).} We certify a \emph{fixed} radius $R$ directly, rather than a supremum of quotients. For a unit direction $u$ and a positive pair $\{k,l\}$ put $g_{kl}(u)=\rho_2(u)+\rho_3(u)-\rho_k(u)-\rho_l(u)$ with $\rho_i(u)=|b_i\cdot u|$; the pair dominates the negative term at radius $R$ when $g_{kl}(u)>0$ and $R\,g_{kl}(u)>K_{kl}$, where $K_{kl}=\ln\!\bigl(16\,|m_{23}|/m_{kl}\bigr)+|c_2|+|c_3|+|c_k|+|c_l|$ (from $\sum|t_{\{2,3\}}|-\sum|t_{\{k,l\}}|\ge r\,g_{kl}-\sum|c|$ and $\sigma'(t)\in[\tfrac14 e^{-|t|},\,e^{-|t|}]$). At every point of an angular grid, put $\underline g_{kl}=g_{kl}-L_{kl}\Delta\theta/2$, where $L_{kl}=\norm{b_2}+\norm{b_3}+\norm{b_k}+\norm{b_l}$. The certifier requires some positive pair with both $\underline g_{kl}>0$ and $R\,\underline g_{kl}-K_{kl}>0$. These bounds hold throughout the corresponding grid cell and then for every radius $r\ge R$; the dominating pair may switch between cells. With outward enclosures and the corrected-slope test, a positive verdict is rigorous and the test is monotone in $R$.
 \item \emph{Interior.} On $[-R_0,R_0]^2$ an adaptive branch-and-bound certifies each box or bisects it; a box that reaches the resolution floor uncertified, or exhaustion of the search budget, forces a hard failure (nonzero exit).
 \end{itemize}
 For the witness the fixed-radius test certifies $R_0=582$ (worst-direction margin $\approx 2.7\times10^{-2}$), and the interior branch-and-bound on $[-582,582]^2$ processes $185{,}999$ boxes and certifies all $93{,}000$ terminal boxes, with none left uncertified at the resolution floor and no budget exhaustion, in a few minutes on typical current hardware; hence $\det DF(x)>0$ for all $x\in\R^2$. A self-test validates the $\sigma'$ enclosures against a reference, confirms the exact minor products and their single negative sign, checks that the interval determinant encloses the true value at a sample point, plants an inflated negative term that the checker must refuse, and confirms that the tail certifier rejects a too-small radius.

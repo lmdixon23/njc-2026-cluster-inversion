@@ -24,6 +24,7 @@ printf '%s\n' '== Decimal interval negative tests =='
 
 printf '%s\n' '== Focused fail-closed regressions =='
 "$PY" code/test_fail_closed.py
+"$PY" code/test_certificate_contracts.py
 
 printf '%s\n' '== Exact geometry and theorem package =='
 "$PY" code/verify_theorem_package.py

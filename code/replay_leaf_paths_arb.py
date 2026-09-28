@@ -17,6 +17,7 @@ from fractions import Fraction as F
 from pathlib import Path
 
 from flint import arb, ctx
+from report_validation import validate_planar_four, require
 
 _B = None
 _C = None
@@ -60,6 +61,8 @@ def determinant(u, v):
 
 
 def build_parameter_balls(data: dict, delta_a: F, delta_b: F, delta_c: F):
+    validate_planar_four(data['A'], data['B'], data['c'])
+    require(all(d >= 0 for d in (delta_a, delta_b, delta_c)), 'negative parameter radius')
     A = [[ball_interval(F(value) - delta_a, F(value) + delta_a) for value in row] for row in data["A"]]
     B = [[ball_interval(F(value) - delta_b, F(value) + delta_b) for value in row] for row in data["B"]]
     C = [ball_interval(F(value) - delta_c, F(value) + delta_c) for value in data["c"]]
@@ -182,9 +185,14 @@ def main() -> int:
     leaf_report = json.loads(leaf_path.read_text(encoding="utf-8"))
     paths = leaf_report["paths"]
     R = int(configuration["R"])
+    require(R > 0, 'compact radius must be positive')
     delta_a, delta_b, delta_c = config_deltas(configuration)
     prefix_free, volume_closed, max_depth = validate_partition(paths)
+    require(prefix_free and volume_closed, 'invalid compact partition')
+    require(leaf_report.get('R') == str(R), 'leaf radius differs from configuration')
+    require(leaf_report.get('split_rule') == 'longer-side; x on ties; child0=lower/left, child1=upper/right', 'wrong leaf split rule')
     workers = args.workers or int(configuration.get("workers", max(1, min(8, mp.cpu_count()))))
+    require(workers > 0 and args.chunksize > 0, 'workers and chunksize must be positive')
 
     failures = []
     checked = 0

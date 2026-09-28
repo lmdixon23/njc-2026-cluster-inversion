@@ -12,6 +12,7 @@ from fractions import Fraction as F
 from pathlib import Path
 
 from flint import arb, ctx
+from report_validation import validate_planar_four, validate_fixed_context, require
 
 
 
@@ -47,6 +48,7 @@ def load_witness(path: Path):
     A = [[F(value) for value in row] for row in data["A"]]
     B = [[F(value) for value in row] for row in data["B"]]
     c = [F(value) for value in data["c"]]
+    validate_planar_four(A, B, c)
     columns = [(A[0][index], A[1][index]) for index in range(4)]
     minors = {
         pair: determinant(columns[pair[0]], columns[pair[1]]) * determinant(B[pair[0]], B[pair[1]])
@@ -80,6 +82,7 @@ def worker(arguments):
     worst_ball = None
     worst_index = None
     worst_pair = None
+    certified_lower = None
     checked = 0
     failures = []
 
@@ -97,6 +100,10 @@ def worker(arguments):
         for pair in positive:
             gap = negative_rates - rho(pair[0], cosine, sine) - rho(pair[1], cosine, sine)
             gap -= L[pair] * half_arc
+            # Extrapolation to r>=R requires the corrected arc slope, not
+            # merely a positive radius-R margin when K can be negative.
+            if not gap > 0:
+                continue
             margin = R * gap - K[pair]
             lower_float = float(margin.lower())
             if best_float is None or lower_float > best_float:
@@ -110,6 +117,7 @@ def worker(arguments):
                 "best_margin_ball": None if best is None else best.str(40, radius=True),
             })
             break
+        certified_lower = best.lower() if certified_lower is None else certified_lower.min(best.lower())
         if worst_float is None or best_float < worst_float:
             worst_float = best_float
             worst_ball = best.str(40, radius=True)
@@ -118,7 +126,7 @@ def worker(arguments):
     return {
         "passed": not failures and checked == end - start,
         "checked": checked,
-        "worst_margin_lower": worst_ball,
+        "worst_margin_lower": None if certified_lower is None else certified_lower.str(40, radius=True),
         "worst_grid_index": worst_index,
         "worst_pair": worst_pair,
         "failures": failures,
@@ -144,6 +152,8 @@ def main() -> int:
     witness_path = Path(args.witness).resolve()
     point_path = Path(args.point_report).resolve()
     _, _, _, witness_sha = load_witness(witness_path)
+    validate_fixed_context(witness_sha, args.R, args.grid)
+    require(args.workers > 0, 'workers must be positive')
     chunks = []
     for worker_index in range(args.workers):
         start = args.grid * worker_index // args.workers
@@ -159,6 +169,11 @@ def main() -> int:
     passed = checked == args.grid and not failures and all(part["passed"] for part in parts)
     eligible = [part for part in parts if part["worst_float"] is not None]
     worst = min(eligible, key=lambda part: part["worst_float"]) if eligible else {}
+    certified_lower = None
+    ctx.prec = args.precision
+    for part in eligible:
+        bound = arb(part['worst_margin_lower']).lower()
+        certified_lower = bound if certified_lower is None else certified_lower.min(bound)
     report = {
         "schema": "arb-point-tail-replay-v1",
         "verdict": "PASS" if passed else "FAIL",
@@ -169,7 +184,7 @@ def main() -> int:
         "R": args.R,
         "grid": args.grid,
         "checked": checked,
-        "worst_margin_lower": worst.get("worst_margin_lower"),
+        "worst_margin_lower": None if certified_lower is None else certified_lower.str(40, radius=True),
         "worst_grid_index": worst.get("worst_grid_index"),
         "worst_pair": worst.get("worst_pair"),
         "failures": failures[:10],

@@ -37,6 +37,7 @@ from decimal import Decimal
 from fractions import Fraction as Fr
 import mpmath
 from mpmath import iv, mp
+from report_validation import validate_planar_four, require
 
 
 # --------------------------------------------------------------------------
@@ -50,11 +51,13 @@ def load_witness(path):
     A = [[Fr(v) for v in row] for row in data["A"]]   # 2x4
     B = [[Fr(v) for v in row] for row in data["B"]]   # 4x2
     c = [Fr(v) for v in data["c"]]                    # 4
+    validate_planar_four(A, B, c)
     return A, B, c, sha
 
 
 def minor_products(A, B):
     """m_I = det(A_cols_I)*det(B_rows_I), exact Fraction, for all 2-subsets I."""
+    validate_planar_four(A, B)
     m = {}
     for I in itertools.combinations(range(4), 2):
         i, j = I
@@ -177,6 +180,7 @@ def tail_certify_fixed_R(R, B, c, m, pos, neg, Mgrid=200000, verbose=False):
     inflated it by min_theta max_J g_J -- combining the ratio-minimizing pair with a
     gap that need not belong to it (separate internal reconstruction, grid index 37576).
     """
+    require(type(R) is int and R > 0 and type(Mgrid) is int and Mgrid > 0, 'R and grid must be positive integers')
     In, rho, KJ, LJ = _tail_setup(B, c, m, pos, neg)
     half_arc = mp.pi / Mgrid * (1 + mp.mpf(2)**(-30))    # scalar upper bound on dtheta/2
     dth = 2 * iv.pi / Mgrid

@@ -35,7 +35,12 @@ def sub(u, v):
 def primitive_coefficients(expr, variables):
     """Return a canonical primitive integer coefficient tuple for a linear form."""
     expr = sp.expand(expr)
-    coeffs = [sp.Rational(expr.coeff(x)) for x in variables]
+    try:
+        coeffs = [sp.Rational(expr.coeff(x)) for x in variables]
+    except (TypeError, ValueError) as exc:
+        raise ValueError('predicate is not homogeneous linear') from exc
+    if sp.expand(expr - sum(c*x for c, x in zip(coeffs, variables))) != 0:
+        raise ValueError('predicate is not homogeneous linear')
     if all(c == 0 for c in coeffs):
         return None
     den_lcm = sp.ilcm(*[int(c.q) for c in coeffs])
@@ -152,6 +157,8 @@ def main() -> int:
     order_unique = sorted(set(order_raw))
     refined_unique = sorted(set(endpoint_unique) | set(order_unique))
 
+    if not endpoint_records or not candidate or not refined_unique:
+        raise ValueError('empty arrangement cannot certify the advertised derivation')
     witness_sub = {x: 1 for x in lam}
     def witness_sign(coeffs):
         value = sum(sp.Integer(c) * witness_sub[x] for c, x in zip(coeffs, lam))
@@ -193,7 +200,8 @@ def main() -> int:
             "explanation": (
                 "Endpoint forms fix the crossing set. Crossing-order forms fix the order "
                 "of all nonparallel line intersections along each edge. Together they "
-                "exclude endpoint incidences and multiple-crossing events on every open chamber."
+                "prevent endpoint incidences and changes of crossing order on each open chamber; "
+                "identically equal crossing parameters remain tied."
             ),
         },
         "verdict": "PASS",

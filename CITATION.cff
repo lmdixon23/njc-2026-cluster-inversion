@@ -1,10 +1,9 @@
 cff-version: 1.2.0
 message: Please cite the preprint and the archived software release.
 title: >-
-  Code and data for: Asymptotic-polygon global inversion for planar saturating
-  ridge networks and an injective neural-Jacobian separation witness
+  Code and data for: Global inversion and winding multiplicity for planar
+  saturating ridge maps
 version: 1.2.0
-date-released: 2026-09-28
 authors:
   - family-names: Dixon
     given-names: Logan M.

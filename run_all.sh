@@ -7,14 +7,25 @@ export PYTHONHASHSEED=0
 # that starts. An explicit choice may be supplied as PY=/path/to/python.
 # On systems where `bash` resolves to the Windows Subsystem for Linux, the
 # default interpreter is a separate installation and may lack them.
-PY="${PY:-python3}"
-"$PY" -c "import flint" 2>/dev/null || PY=python
-"$PY" -c "import flint" 2>/dev/null || {
-  echo "no interpreter with the pinned dependencies found (python-flint missing)."
-  echo "install requirements-lock.txt, or run: PY=/path/to/python bash run_all.sh"
-  exit 1
-}
+if [[ ${PY+x} ]]; then
+  # An explicit interpreter is a contract: do not silently substitute another.
+  "$PY" -c "import flint" 2>/dev/null || {
+    echo "FAIL: explicit PY cannot import python-flint; use the pinned environment."
+    exit 1
+  }
+else
+  PY=python3
+  "$PY" -c "import flint" 2>/dev/null || PY=python
+  "$PY" -c "import flint" 2>/dev/null || {
+    echo "FAIL: no interpreter with python-flint; install requirements-lock.txt."
+    exit 1
+  }
+fi
+"$PY" -c "import sys; sys.exit('FAIL: verification requires assertions; unset PYTHONOPTIMIZE.') if sys.flags.optimize else None"
 "$PY" -c "import sys, flint; print('Interpreter:', sys.executable, '| flint', flint.__version__)"
+
+printf '%s\n' '== Verification runtime regressions =='
+"$PY" code/test_verification_runtime.py
 
 printf '%s\n' '== Canonical-file integrity =='
 "$PY" code/verify_sha256_manifest.py
@@ -25,6 +36,7 @@ printf '%s\n' '== Decimal interval negative tests =='
 printf '%s\n' '== Focused fail-closed regressions =='
 "$PY" code/test_fail_closed.py
 "$PY" code/test_certificate_contracts.py
+"$PY" code/test_magnitude_predicates.py
 
 printf '%s\n' '== Exact geometry and theorem package =='
 "$PY" code/verify_theorem_package.py

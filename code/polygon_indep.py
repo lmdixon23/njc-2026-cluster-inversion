@@ -7,6 +7,12 @@ asymptotic_polygon.py). Implements:
     face sampling (fragment midpoints offset by certified-small epsilon)
 All arithmetic in fractions.Fraction.
 """
+
+# Assertions below are part of verification, not optional diagnostics.
+import sys as _verification_sys
+if _verification_sys.flags.optimize:
+    raise SystemExit("FAIL: verification requires assertions; omit -O/-OO and unset PYTHONOPTIMIZE.")
+
 from fractions import Fraction as Fr
 from itertools import combinations
 

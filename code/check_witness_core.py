@@ -151,8 +151,9 @@ if not ok_all or not negative_display_match:
     raise SystemExit('VERDICT: INDEPENDENT WITNESS CHECK FAILED: mixed-minor display values')
 if not point_report_bound:
     raise SystemExit('VERDICT: INDEPENDENT WITNESS CHECK FAILED: point-tail report binding')
-if not detavg < 0:
-    raise SystemExit('VERDICT: INDEPENDENT WITNESS CHECK FAILED: averaged determinant')
+if not detavg < arb('-1.7199e-5'):
+    raise SystemExit('VERDICT: INDEPENDENT WITNESS CHECK FAILED: theorem bound -1.7199e-5')
+print('theorem bound det average < -1.7199e-5: certified')
 if not claimed_avg_close:
     raise SystemExit('VERDICT: INDEPENDENT WITNESS CHECK FAILED: averaged-determinant display value')
 if vals[0][0] <= 0:

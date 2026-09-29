@@ -1,5 +1,24 @@
 # Release notes
 
+## v1.2.0 finalization candidate
+
+- Retains the reviewed theorem, certificate, and verification-runtime corrections
+  described below and the exact historical reports that support them.
+- Gives the manuscript a shorter title and clarifies the boundary-multiplicity
+  contribution, the separation example, and the scope of the novelty claims.
+- Uses the tested paper-directory build recipe, synchronizes title metadata, and
+  binds manuscript availability statements to the version-specific release URL.
+- These source bytes are prepared for v1.2.0. The version tag and release date are
+  established by the actual GitHub release after verification of its source commit.
+
+
+## Unreleased candidate corrections - 2026-09-29
+
+- Made the remaining chamber/stability arguments and their scope explicit.
+- Hardened assertion-based verification against optimized Python and retained explicit interpreter selection.
+- Improved exact-input bindings, quantitative checks, and reproducibility documentation.
+- These are candidate changes; no release tag or publication status is implied.
+
 ## Candidate v1.2.0 - 2026-09-28
 
 - Corrected the closed-width coordinate-dependence example: the asymptotic hexagon now lists exactly its six attainable vertices, and the negative averaged-determinant claim is proved by an explicit rational bound rather than an informal asymptotic estimate.

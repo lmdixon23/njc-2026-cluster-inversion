@@ -1,6 +1,12 @@
 #!/usr/bin/env python3
 """Exact verification for the three comparison polygons used in the paper."""
 from __future__ import annotations
+
+# Assertions below are part of verification, not optional diagnostics.
+import sys as _verification_sys
+if _verification_sys.flags.optimize:
+    raise SystemExit("FAIL: verification requires assertions; omit -O/-OO and unset PYTHONOPTIMIZE.")
+
 import json
 from fractions import Fraction as F
 from pathlib import Path

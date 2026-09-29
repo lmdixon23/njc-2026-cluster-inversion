@@ -6,6 +6,12 @@ signed area, and the rational inequalities used in the analytic proof that the
 chosen segment has negative averaged-Jacobian determinant.
 """
 from __future__ import annotations
+
+# Assertions below are part of verification, not optional diagnostics.
+import sys as _verification_sys
+if _verification_sys.flags.optimize:
+    raise SystemExit("FAIL: verification requires assertions; omit -O/-OO and unset PYTHONOPTIMIZE.")
+
 from fractions import Fraction as F
 from pathlib import Path
 import sys

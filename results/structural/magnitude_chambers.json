@@ -582,7 +582,7 @@
     "all_endpoint_forms_linear_homogeneous": true,
     "all_order_forms_linear_homogeneous": true,
     "intersection_parameter_identities_checked": 32,
-    "explanation": "Endpoint forms fix the crossing set. Crossing-order forms fix the order of all nonparallel line intersections along each edge. Together they exclude endpoint incidences and multiple-crossing events on every open chamber."
+    "explanation": "Endpoint forms fix the crossing set. Crossing-order forms fix the order of all nonparallel line intersections along each edge. Together they prevent endpoint incidences and changes of crossing order on each open chamber; identically equal crossing parameters remain tied."
   },
   "verdict": "PASS"
 }

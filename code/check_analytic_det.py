@@ -6,6 +6,12 @@ algebraic hypothesis exactly, then evaluates the transcendental bound in Arb
 Also independently re-proves the proposition's logic numerically by random
 sampling of (z2,z3) to confirm the chain of inequalities is not vacuous.
 """
+
+# Assertions below are part of verification, not optional diagnostics.
+import sys as _verification_sys
+if _verification_sys.flags.optimize:
+    raise SystemExit("FAIL: verification requires assertions; omit -O/-OO and unset PYTHONOPTIMIZE.")
+
 import json
 from fractions import Fraction as Fr
 from pathlib import Path
